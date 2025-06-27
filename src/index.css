@@ -1,0 +1,144 @@
+@import "tailwindcss";
+@font-face {
+  font-family: Rubik;
+  src: url("./assets/fonts/Rubik/Rubik-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: Roboto;
+  src: url("./assets/fonts/Roboto/static/Roboto-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: Roboto;
+  src: url("./assets/fonts/Roboto/static/Roboto-Bold.ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: Montserrat;
+  src: url("./assets/fonts/Montserrat/static/Montserrat-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+/*colors
+
+NOTES
+react icon 
+import { SiHomeassistant } from "react-icons/si";   icon for smart home category
+Iot Device
+import { MdOnDeviceTraining } from "react-icons/md";Smart City
+import { CgSmartHomeLight } from "react-icons/cg";
+
+module and Geenric devices
+import { MdDevicesOther } from "react-icons/md";
+
+smart tracking
+import { FaMapMarkerAlt } from "react-icons/fa";
+
+colors:
+Primary : #14213D
+White: #FFFFF
+gray: #F5F5F5
+Secondary: #0077b6
+
+--primary:#f59f00
+  
+--tint:#fef5e6,#f59f00
+--grays:#333,#555
+--shades 
+
+ --color-accent:#E5E5E5  //Soft gray — subtle contrast, clean background
+  --color-text-primary:#212529;  //Almost-black — excellent readability
+  --color-text-muted:#6C757D   //Neutral gray — for less-important text
+  --color-success:#2A9D8F  //Teal — used for in-stock, confirmation UI
+  --color-warning:#E63946   //Rich red — used for errors, low stock warnings
+  --color-background:#F8F9FA  //Very light gray — professional, clean layout
+  --color-border:DEE2E6;  //Neutral border color
+
+  Notes:
+  Call-to-action buttons: Use #FCA311 with white text for high conversion.
+
+Hover effects: Slightly darken or lighten the color (e.g. #FFB627 or #0E1A30).
+
+Alerts: Use red sparingly — only where attention is critical (like out of stock).
+
+Typography: Avoid pure black; use #212529 for better aesthetics and legibility.
+
+Fonts Notes:
+
+Rubik	Primary / Display Font	Headings (H1–H4), Section titles, Hero banners
+Montserrat	Secondary / UI Font	Navigation bar, buttons, product cards, price tags
+Roboto	Body Text / Paragraphs	Long-form content, descriptions, product details
+
+*/
+/*
+SPACING SYSTEM (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+
+FONT SIZE SYSTEM (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 / 52 / 62 / 74 / 86 / 98
+*/
+@theme {
+  --font-Rubik: Rubik, "sans-serif";
+  --font-Roboto: Roboto, "sans-serif";
+  --font-Montserrat: Montserrat, "sans-serif";
+  --color-primary: #14213d;
+  --color-secondary:#FCA311;
+  --color-accent:#E5E5E5  ;
+  --color-text-primary:#212529;  
+  --color-text-muted:#6C757D;
+  --color-success:#2A9D8F;
+  --color-warning:#E63946   ;
+  --color-background:#F8F9FA ; 
+  --color-border:DEE2E6; 
+  --color-black: #211c24;
+  --color-gray: #ededed;
+  --color-blue-secondary: #0077b6;
+}
+html {
+  scroll-behavior: smooth;
+}
+strong {
+  font-weight: 600;
+}
+.nav_hover:hover {
+  color: #0077b6;
+  cursor: pointer;
+}
+.tertiary_heading {
+  /*  text-[1.6rem] text-white opacity-50 uppercase pb-0 tracking-wide font-Montserrat */
+ font-size:44px;
+ padding:20px;
+  font-family: "Roboto", sans-serif;
+  font-size:700;
+  line-height:0px;
+  letter-spacing:1.9px;
+}
+.text_paragraph{
+  font-size:16px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+   line-height: 24px;
+   opacity: 50%;
+   
+
+   
+}
+.customer_img {
+width: 48px;
+height: 48px;
+border-radius: 100%;
+border: 1px;
+border-style: solid;
+border-color: #FCA311;
+ 
+}
+.product_card:hover {
+  transform: translateY(-1.2rem);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+/*
+ w-12 h-12 rounded-full border-[1px] border-secondary
