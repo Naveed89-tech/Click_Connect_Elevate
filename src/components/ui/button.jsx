@@ -11,9 +11,7 @@ function Button({
 }) {
   // Base styles that apply to all buttons
   const baseClasses = `
-    inline-flex items-center justify-center cursor-pointer
-    
-    font-Rubik text-[1.27rem] leading-normal
+    inline-flex items-center justify-center cursor-pointer    font-Rubik text-[1.27rem] leading-normal
     rounded-[0.5rem] px-12 py-4
     transition-all duration-100 ease-[cubic-bezier(0.4,0,0.2,1)]
     focus:outline-none     disabled:opacity-60 disabled:cursor-not-allowed
@@ -30,7 +28,7 @@ function Button({
       dark:shadow-black/30 dark:hover:shadow-dark-strong
     `,
     secondary: `
-      bg-primary border-2 border-primary text-primary
+      bg-primary border-2 border-primary text-white
       hover:bg-primary hover:text-white
       active:bg-primary active:text-white
       dark:bg-primary dark:hover:bg-primary
@@ -41,9 +39,9 @@ function Button({
       focus:ring-red-300
     `,
     outline: `
-      border border-blue-500 text-blue-500
-      hover:bg-blue-50
-      focus:ring-blue-300
+      border border-secondary text-secondary
+      hover:bg-secondary/20
+      focus:ring-secondary/30
     `,
     ghost: `
       text-gray-700
@@ -51,7 +49,7 @@ function Button({
       focus:ring-gray-300
     `,
     cardButton: `
-      w-full bg-primary text-white text-[16px]
+       bg-primary text-white text-[16px]
       px-4 py-3 rounded-lg shadow
       hover:bg-gray-800 hover:shadow-md hover:-translate-y-0.5
       active:bg-gray-900 active:shadow-sm active:translate-y-0

@@ -28,7 +28,8 @@ import { useWishlist } from "../context/WishlistContext";
 import toast from "react-hot-toast";
 import { format, formatDistanceToNow } from "date-fns";
 import { updateDoc } from "firebase/firestore";
-
+import Button from "./ui/button";
+import RelatedProducts from "./RelatedProducts";
 const SingleProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -135,7 +136,21 @@ const SingleProductPage = () => {
     if (!product) return;
     setIsAddingToCart(true);
     try {
-      await addToCart({ ...product, quantity });
+      const cartItem = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        salePrice: product.salePrice,
+        unitPrice: product.salePrice || product.price,
+        image:
+          product.image ||
+          product.imageUrl ||
+          product.images?.[0] ||
+          "/fallback.jpg", // 👈 fix here
+        quantity,
+      };
+
+      await addToCart(cartItem);
       toast.success(`${quantity} ${product.name} added to cart`);
     } catch (error) {
       toast.error("Failed to add to cart");
@@ -145,8 +160,23 @@ const SingleProductPage = () => {
   };
 
   const handleAddToWishlist = async () => {
+    if (!product) return;
+
     try {
-      await addToWishlist(product);
+      const wishlistItem = {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        salePrice: product.salePrice,
+        image:
+          product.image ||
+          product.imageUrl ||
+          product.thumbnail ||
+          product.images?.[0] || // ✅ most common in Firestore
+          "/placeholder.jpg", // fallback image
+      };
+
+      await addToWishlist(wishlistItem);
       toast.success("Added to wishlist");
     } catch (error) {
       toast.error("Failed to add to wishlist");
@@ -298,8 +328,8 @@ const SingleProductPage = () => {
 
         {/* Enhanced Product Info Section */}
         <div className="space-y-6">
-          <div className="border-b pb-4 dark:border-gray-700">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="border-b pb-4 border-gray-400">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:mb-4 text-primary dark:text-white">
               {product.name}
             </h1>
 
@@ -330,13 +360,13 @@ const SingleProductPage = () => {
           </div>
 
           <div className="space-y-4">
-            <p className="text-gray-700 dark:text-gray-300">
+            <p className="text-gray-700 font-Roboto text-[16px] dark:text-gray-300">
               {product.shortDescription ||
                 product.introduction?.substring(0, 200) + "..."}
             </p>
 
             <div className="flex items-baseline gap-3">
-              <p className="text-3xl font-bold text-gray-900 dark:text-white">
+              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-primary dark:text-white">
                 ${actualPrice.toFixed(2)}
               </p>
               {product.salePrice && product.price && (
@@ -379,7 +409,8 @@ const SingleProductPage = () => {
                 </div>
 
                 <div className="flex gap-3 pt-2">
-                  <button
+                  <Button
+                    variant="secondary"
                     onClick={handleAddToCart}
                     disabled={isAddingToCart}
                     className={`flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md flex items-center justify-center gap-2 transition-colors ${
@@ -416,14 +447,15 @@ const SingleProductPage = () => {
                         Add to Cart
                       </>
                     )}
-                  </button>
-                  <button
+                  </Button>
+                  <Button
+                    variant="outline"
                     onClick={handleAddToWishlist}
                     className="p-3 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                     title="Add to wishlist"
                   >
                     <FaHeart className="text-red-500" />
-                  </button>
+                  </Button>
                 </div>
 
                 <div className="grid grid-cols-3 gap-4 pt-6">
@@ -593,54 +625,7 @@ const SingleProductPage = () => {
             </motion.div>
           )}
 
-          {tab === "related" && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
-            >
-              {product.related?.length > 0 ? (
-                product.related.map((item, i) => (
-                  <div
-                    key={i}
-                    className="border p-3 rounded-md bg-white shadow-md dark:bg-gray-800 hover:shadow-lg transition-shadow"
-                  >
-                    <div className="h-48 bg-gray-100 dark:bg-gray-700 rounded mb-3 flex items-center justify-center">
-                      <img
-                        src={item.image || placeholderImage}
-                        alt={item.name || "Product"}
-                        className="max-h-full max-w-full object-contain"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = placeholderImage;
-                        }}
-                      />
-                    </div>
-                    <h3 className="text-lg font-bold line-clamp-1">
-                      {item.name || "Untitled Product"}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-2 line-clamp-2">
-                      {item.intro || "No description available"}
-                    </p>
-                    <p className="text-green-600 font-semibold">
-                      ${item.price?.toFixed(2) || "0.00"}
-                    </p>
-                    {item.id && (
-                      <Link to={`/products/${item.id}`}>
-                        <button className="mt-2 w-full bg-blue-600 text-white py-1 rounded hover:bg-blue-700 text-sm">
-                          View Product
-                        </button>
-                      </Link>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div className="col-span-full text-center py-8 text-gray-500">
-                  No related products found.
-                </div>
-              )}
-            </motion.div>
-          )}
+          {tab === "related" && <RelatedProducts currentProduct={product} />}
         </div>
       </div>
     </div>

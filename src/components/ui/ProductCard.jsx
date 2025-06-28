@@ -27,7 +27,7 @@ const ProductCard = ({ product }) => {
       </div>
 
       {/* Product Info */}
-      <div className="p-3 sm:p-4 flex flex-col sm:flex-grow justify-center items-start  ">
+      <div className="p-3 sm:p-4 flex flex-col sm:flex-grow justify-center">
         {/* TITLE - fixed height */}
         <h3 className="text-sm sm:text-[16px] md:text-[18px] font-semibold text-gray-900 sm:leading-6 sm:mb-2 line-clamp-2 min-h-[48px]">
           {product.name || "Unnamed Product"}
