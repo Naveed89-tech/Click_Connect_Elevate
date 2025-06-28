@@ -1,9 +1,10 @@
 import React from "react";
-import Button from "../../components/ui/button";
-import { Link } from "react-router-dom";
-import heroImage from "../../assets/images/hero_device.png";
+
 import { ArrowRight, Zap } from "lucide-react";
-import CustomerHighlight from "../home/customerHighligh";
+import { Link } from "react-router-dom";
+
+import Button from "../ui/button";
+import CustomerHighlight from "./customerHighligh";
 
 export default function HeroSection() {
   return (

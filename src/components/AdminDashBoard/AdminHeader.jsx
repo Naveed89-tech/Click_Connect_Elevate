@@ -1,6 +1,8 @@
-import { FiBell, FiSearch, FiUser, FiMenu } from 'react-icons/fi';
-import { useState } from 'react';
-import { useAuth } from "../context/AuthContext"; // Assumed path to your auth context
+import { useState } from "react";
+
+import { FiBell, FiMenu, FiSearch } from "react-icons/fi";
+
+import { useAuth } from "../../context/AuthContext"; // Assumed path to your auth context
 
 const AdminHeader = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

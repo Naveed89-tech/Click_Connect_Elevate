@@ -1,17 +1,13 @@
-import React from "react";
-import categoryOne from "../../assets/images/hero_device_new.png";
-import modules from "../../assets/images/review_product.png";
-import modulesTwo from "../../assets/images/bbb_pression.png";
-import modulesFour from "../../assets/images/module_four.png";
-import Button from "../../components/ui/button";
 import { Link } from "react-router-dom";
+
+import Button from "../ui/button";
 
 function MainCategoriesSection() {
   return (
     <section className="max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 lg:px-8 py-12 sm:py-16 font-Roboto">
       {/* Section Header */}
       <div className="text-center mb-8 sm:mb-12">
-        <h2 className="text-3xl xs:text-4xl font-bold text-primary mb-3 sm:mb-4">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-3 sm:mb-4">
           Explore Our Smart Solutions
         </h2>
         <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-2 xs:px-0">
@@ -27,7 +23,9 @@ function MainCategoriesSection() {
           <div className="group relative flex flex-col md:flex-row bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
             <div className="w-full md:w-1/2 h-48 sm:h-auto overflow-hidden flex-shrink-0">
               <img
-                src={categoryOne}
+                src={
+                  "https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/products/hero_device_new.png?raw=true"
+                }
                 alt="Smart Homes"
                 className="w-full h-full object-cover transform group-hover:scale-105 transition duration-500"
               />

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { Heart } from "lucide-react";
-import { Link } from "react-router-dom";
-import Button from "../../components/ui/button";
+
 import useFirestoreProducts from "../../hooks/useFirestoreProducts";
-import ProductCard from "../../components/ui/ProductCard";
+import ProductCard from "../ui/ProductCard";
 
 const TABS = [
   { label: "New Arrival", value: "new arrival" },
@@ -38,7 +36,7 @@ function ProductTabsSection() {
           <button
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
-            className={`text-lg font-medium font-Montserrat pb-2 border-b-2 transition whitespace-nowrap ${
+            className={`text-lg font-medium hover:cursor-pointer font-Montserrat pb-2 border-b-2 transition whitespace-nowrap ${
               activeTab === tab.value
                 ? "border-secondary text-primary"
                 : "border-transparent text-gray-500 hover:text-black"
@@ -49,7 +47,7 @@ function ProductTabsSection() {
         ))}
       </div>
 
-      {/* Product Grid - Updated with proper gap and responsive columns */}
+      {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (

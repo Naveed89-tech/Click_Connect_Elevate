@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { motion, useAnimation } from "framer-motion";
 import {
-  FaMobileAlt,
-  FaIndustry,
-  FaGamepad,
   FaCity,
-  FaHeadphones,
+  FaGamepad,
+  FaIndustry,
   FaMapMarkerAlt,
+  FaMobileAlt,
 } from "react-icons/fa";
-import { FiCpu, FiHardDrive, FiServer } from "react-icons/fi";
+import { FiCpu } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const categories = [
   { name: "Smart Home", icon: <FaMobileAlt />, path: "/smart-home" },
@@ -29,7 +29,7 @@ function BrowseByCategory() {
   const controls = useAnimation();
   const containerRef = useRef();
   const itemWidth = 180;
-  const visibleItems = 4;
+
   const scrollDelay = 3000;
   const scrollDuration = 800;
   const timeoutRef = useRef();

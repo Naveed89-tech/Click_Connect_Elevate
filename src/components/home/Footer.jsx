@@ -1,6 +1,8 @@
 import React from "react";
-import { Facebook, Twitter, Linkedin, Instagram } from "lucide-react"; // Using lucide-react icons
+
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"; // Using lucide-react icons
 import { Link } from "react-router-dom";
+
 function Footer() {
   return (
     <footer className="bg-black text-gray-300 pt-16 pb-10 px-6 md:px-16">
@@ -111,7 +113,7 @@ function Footer() {
       {/* BOTTOM FOOTER */}
       <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-xs text-gray-500">
-          © 2025 Connect Automate. All rights reserved.
+          © 2025 Connect Automate & Elevate. All rights reserved.
         </p>
         <div className="flex gap-4">
           <a href="#" className="hover:text-white">

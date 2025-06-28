@@ -1,39 +1,41 @@
-import { useState, useEffect } from "react";
-import {
-  FiShoppingCart,
-  FiUsers,
-  FiDollarSign,
-  FiPackage,
-  FiTrendingUp,
-  FiBarChart2,
-  FiPieChart,
-  FiCalendar,
-} from "react-icons/fi";
-import MetricCard from "../components/Jobseek/MetricCard";
-import {
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { useEffect, useState } from "react";
+
+import { formatDistanceToNow } from "date-fns";
 import {
   collection,
   getDocs,
-  query,
-  orderBy,
   onSnapshot,
+  orderBy,
+  query,
 } from "firebase/firestore";
-import { db } from "../firebase";
-import { formatDistanceToNow } from "date-fns";
+import {
+  FiBarChart2,
+  FiCalendar,
+  FiDollarSign,
+  FiPackage,
+  FiPieChart,
+  FiShoppingCart,
+  FiTrendingUp,
+  FiUsers,
+} from "react-icons/fi";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  Legend,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+import { db } from "../../firebase";
+import MetricCard from "./MetricCard";
 
 const Dashboard = () => {
   const [dateRange, setDateRange] = useState("week");
