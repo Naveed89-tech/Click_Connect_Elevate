@@ -1,18 +1,23 @@
-import { useState } from 'react';
-import { FiPlus, FiSearch, FiEdit2, FiTrash2 } from 'react-icons/fi';
-import ProductTable from '../../components/products/ProductTable';
-import  useProducts  from '../../hooks/useProducts';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+
+import { FiPlus, FiSearch } from "react-icons/fi";
+import { Link } from "react-router-dom";
+
+import useProducts from "../../hooks/useProducts";
+import ProductTable from "../AdminDashBoard/products/ProductTable";
 
 const ProductsList = () => {
   const { products, loading, deleteProduct } = useProducts();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   // Filter products
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 

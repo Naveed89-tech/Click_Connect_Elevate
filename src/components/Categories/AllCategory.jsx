@@ -1,17 +1,19 @@
 // ✅ SmartHomePage still re-uses Catalog filter logic
 import React, { useState } from "react";
+
 import {
   ChevronLeft,
   ChevronRight,
-  X as Close,
   Filter as FilterIcon,
   Grid as ViewAllIcon,
+  X as Close,
 } from "lucide-react";
-import { useLocation, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import useFirestoreProducts from "../hooks/useFirestoreProducts";
-import Button from "./ui/button";
-import ProductCard from "./ui/ProductCard";
+import { Link, useLocation } from "react-router-dom";
+
+import Button from "../../components/ui/button";
+import ProductCard from "../../components/ui/ProductCard";
+import useFirestoreProducts from "../../hooks/useFirestoreProducts";
 
 function AllCategory() {
   /* ──────────── State & hooks ──────────── */

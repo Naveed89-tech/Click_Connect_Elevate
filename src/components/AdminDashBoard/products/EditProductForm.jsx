@@ -1,9 +1,11 @@
 // ✅ EditProductForm.jsx
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import ProductForm from "../products/ProductForm";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { db } from "../../../firebase";
+import ProductForm from "./ProductForm";
 
 const EditProductForm = () => {
   const { id } = useParams();

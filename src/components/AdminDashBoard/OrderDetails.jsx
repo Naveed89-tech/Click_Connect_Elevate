@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { collection, onSnapshot, doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+
+import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+
+import { db } from "../../firebase";
 
 const OrdersTable = () => {
   const [orders, setOrders] = useState([]);

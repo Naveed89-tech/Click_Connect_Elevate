@@ -1,5 +1,6 @@
 // ProtectedAdminRoute.jsx
 import { Navigate } from "react-router-dom";
+
 import { useAuth } from "../../context/AuthContext"; // adjust path if needed
 
 const adminEmail = "naveed5651@gmail.com"; // your admin email

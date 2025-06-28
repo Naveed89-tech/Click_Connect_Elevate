@@ -7,11 +7,21 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import AnimatedPage from "../src/components/ui/AnimatePage";
 import AboutUsPage from "../src/pages/AboutUs";
-//order details
-import OrderDetails from "../src/pages/products/OrderDetails"; // adjust path as needed
+import AddProduct from "./components/AdminDashBoard/AddProduct";
 import AdminLayout from "./components/AdminDashBoard/AdminLayout";
+import AdminReviews from "./components/AdminDashBoard/AdminReviews";
+import CustomersList from "./components/AdminDashBoard/CustomersList";
 import Dashboard from "./components/AdminDashBoard/Dashboard";
-import AllCategory from "./components/AllCategory";
+import OrdersList from "./components/AdminDashBoard/OrdersList";
+// admin dashboard
+import PrivateRoute from "./components/AdminDashBoard/PrivateRoute";
+import EditProductForm from "./components/AdminDashBoard/products/EditProductForm";
+//order details
+import OrderDetails from "./components/AdminDashBoard/products/OrderDetails"; // adjust path as needed
+import ProductsList from "./components/AdminDashBoard/ProductsList";
+import Settings from "./components/AdminDashBoard/Settings";
+import AllCategory from "./components/Categories/AllCategory";
+import SingleProductPage from "./components/Categories/SingleProductPage";
 import ContactUs from "./components/contactUs/ContactUs";
 import Header from "./components/header";
 import BrowseByCategory from "./components/home/BrowseByCategory";
@@ -22,21 +32,11 @@ import HeroSection from "./components/home/HeroSection";
 import MainCategoriesSection from "./components/home/MainCategoriesSection";
 import ProductTabsSection from "./components/home/ProductTabsSection";
 import SplitTestimonialGallery from "./components/home/Testimonials";
-import EditProductForm from "./components/products/EditProductForm";
 import CheckoutFlow from "./components/shoppingCart/CheckoutFlow";
 import MyOrders from "./components/shoppingCart/MyOrders";
 import OrderConfirmation from "./components/shoppingCart/OrderConfirmation";
-import ProductDetailPage from "./components/singleProduct";
 import UserProfile from "./components/userAdmin/UserProfile";
 import AuthModal from "./components/userAdmin/userSignUp";
-// admin dashboard
-import PrivateRoute from "./pages/AdminDashBoard/PrivateRoute";
-import AddProduct from "./pages/products/AddProduct";
-import AdminReviews from "./pages/products/AdminReviews";
-import CustomersList from "./pages/products/CustomersList";
-import OrdersList from "./pages/products/OrdersList";
-import ProductsList from "./pages/products/ProductsList";
-import Settings from "./pages/products/Settings";
 
 {
   /* ChatGpt  
@@ -71,7 +71,7 @@ function App() {
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/products" element={<AllCategory />} />
           <Route path="/:categorySlug" element={<AllCategory />} />
-          <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/product/:id" element={<SingleProductPage />} />
           <Route path="/userSignUp" element={<AuthModal />} />
           <Route path="/checkout" element={<CheckoutFlow />} />
           <Route path="/my-orders" element={<MyOrders />} />

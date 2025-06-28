@@ -1,35 +1,37 @@
-import React, { useState, useEffect } from "react";
+import "react-medium-image-zoom/dist/styles.css";
+
+import React, { useEffect, useState } from "react";
+
+import { format, formatDistanceToNow } from "date-fns";
 import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import { motion } from "framer-motion";
+import toast from "react-hot-toast";
+import {
+  FaBoxOpen,
   FaHeart,
+  FaShieldAlt,
   FaShoppingCart,
   FaStar,
   FaTruck,
-  FaBoxOpen,
-  FaShieldAlt,
-  FaChevronLeft,
 } from "react-icons/fa";
-import { auth } from "../firebase";
-import {
-  collection,
-  onSnapshot,
-  query,
-  orderBy,
-  doc,
-  where,
-  getDoc,
-} from "firebase/firestore";
-import { db } from "../firebase";
-import { motion } from "framer-motion";
-import { Link, useParams } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
-import "react-medium-image-zoom/dist/styles.css";
-import { useCart } from "../context/CartContext";
-import { useWishlist } from "../context/WishlistContext";
-import toast from "react-hot-toast";
-import { format, formatDistanceToNow } from "date-fns";
-import { updateDoc } from "firebase/firestore";
-import Button from "./ui/button";
+import { Link, useParams } from "react-router-dom";
+
+import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
+import { db } from "../../firebase";
+import Button from "../ui/button";
 import RelatedProducts from "./RelatedProducts";
+
 const SingleProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);

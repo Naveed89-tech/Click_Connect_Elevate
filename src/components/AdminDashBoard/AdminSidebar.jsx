@@ -1,5 +1,11 @@
-import { FiHome, FiShoppingBag, FiDollarSign, FiUsers, FiPieChart, FiSettings } from 'react-icons/fi';
-import { NavLink } from 'react-router-dom';
+import {
+  FiDollarSign,
+  FiHome,
+  FiSettings,
+  FiShoppingBag,
+  FiUsers,
+} from "react-icons/fi";
+import { NavLink } from "react-router-dom";
 
 const AdminSidebar = () => {
   return (

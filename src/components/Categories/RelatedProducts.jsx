@@ -1,7 +1,8 @@
-// ✅ ProductCard import
-import ProductCard from "./ui/ProductCard";
-import useFirestoreProducts from "../hooks/useFirestoreProducts";
 import { useEffect, useState } from "react";
+
+import useFirestoreProducts from "../../hooks/useFirestoreProducts";
+// ✅ ProductCard import
+import ProductCard from "../ui/ProductCard";
 
 const RelatedProducts = ({ currentProduct }) => {
   const allProducts = useFirestoreProducts();

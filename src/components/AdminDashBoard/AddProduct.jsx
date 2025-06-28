@@ -1,7 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import ProductForm from "../../components/products/ProductForm";
-import useProducts from "../../hooks/useProducts";
+
+import ProductForm from "../../components/AdminDashBoard/products/ProductForm";
 import { useAuth } from "../../context/AuthContext";
+import useProducts from "../../hooks/useProducts";
 
 const AddProduct = () => {
   const navigate = useNavigate();
