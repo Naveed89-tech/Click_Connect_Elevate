@@ -1,6 +1,8 @@
-import React from "react";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { useRef } from "react";
+import React, { useRef } from "react";
+
+import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { Link } from "react-router-dom";
+
 import Button from "../ui/button";
 
 const testimonials = [
@@ -246,14 +248,14 @@ function Testimonials() {
             </button>
           </div>
 
-          <div className="mt-6 sm:mt-8 text-center">
+          <Link to="/products" className="mt-6 block sm:mt-8 text-center">
             <Button
               variant="secondary"
               className="px-6 sm:px-8 py-2 sm:py-3 bg-primary text-white font-medium rounded-lg hover:bg-[#434d64] cursor-pointer font-Rubik transition shadow-md hover:shadow-lg text-sm sm:text-base"
             >
               View All Products
             </Button>
-          </div>
+          </Link>
         </div>
       </div>
     </section>

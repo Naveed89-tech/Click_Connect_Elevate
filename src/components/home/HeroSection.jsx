@@ -51,7 +51,10 @@ export default function HeroSection() {
                 <ArrowRight className="inline w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </Link>
-            <Link to="/demo" className="w-full sm:w-auto opacity-50">
+            <Link
+              to="https://www.youtube.com/watch?v=NjYTzvAVozo"
+              className="w-full sm:w-auto opacity-50"
+            >
               <Button
                 variant="outline"
                 className="w-full sm:w-auto px-8 py-4 font-medium border-white text-white hover:bg-white/10"

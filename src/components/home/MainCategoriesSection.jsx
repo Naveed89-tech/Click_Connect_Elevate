@@ -43,7 +43,7 @@ function MainCategoriesSection() {
               </p>
               <div className="mt-auto">
                 <Link
-                  to="/smart-homes"
+                  to="/smart-home"
                   className="inline-flex items-center text-secondary font-Rubik font-medium group"
                 >
                   Discover more
@@ -71,7 +71,10 @@ function MainCategoriesSection() {
             {/* IoT Modules Card */}
             <div className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full">
               <div className="p-5 sm:p-6 flex flex-col h-full">
-                <div className="flex justify-center mb-4 sm:mb-6">
+                <Link
+                  to="/industrial-iot"
+                  className="flex justify-center mb-4 sm:mb-6"
+                >
                   <img
                     src={
                       "https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/Gallery/10.jpg?raw=true"
@@ -79,28 +82,31 @@ function MainCategoriesSection() {
                     alt="IoT Modules"
                     className="h-32 sm:h-40 object-contain transform group-hover:scale-110 transition duration-500"
                   />
-                </div>
+                </Link>
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3">
                   IoT Modules & Devices
                 </h3>
                 <p className="text-gray-600 mb-3 sm:mb-4 text-sm sm:text-base">
                   Customizable solutions for your connected environment.
                 </p>
-                <div className="mt-auto">
+                <Link to="/products" className="mt-auto">
                   <Button
                     variant="outline"
                     className="w-full hover:cursor-pointer border-secondary text-secondary hover:bg-secondary font-Rubik hover:text-white text-sm sm:text-base"
                   >
                     View Products
                   </Button>
-                </div>
+                </Link>
               </div>
             </div>
 
             {/* IoT Monitoring Pro Card */}
             <div className="group relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 h-full">
               <div className="p-5 sm:p-6 flex flex-col h-full">
-                <div className="flex justify-center mb-4 sm:mb-6">
+                <Link
+                  to="/smart-city"
+                  className="flex justify-center mb-4 sm:mb-6"
+                >
                   <img
                     src={
                       "https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/featured_one.png?raw=true"
@@ -108,21 +114,21 @@ function MainCategoriesSection() {
                     alt="IoT Monitoring Pro"
                     className="h-32 sm:h-40 object-contain transform group-hover:scale-110 transition duration-500"
                   />
-                </div>
+                </Link>
                 <h3 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-3">
                   IoT Monitoring Pro
                 </h3>
                 <p className="text-gray-300 mb-3 sm:mb-4 text-sm sm:text-base">
                   Advanced analytics for your connected devices.
                 </p>
-                <div className="mt-auto">
+                <Link to="/products" className="mt-auto">
                   <Button
                     variant="solid"
                     className="w-full bg-secondary text-white font-Roboto cursor-pointer text-sm sm:text-base"
                   >
                     Learn More
                   </Button>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
@@ -202,7 +208,7 @@ function MainCategoriesSection() {
                 </li>
               </ul>
               <div className="flex space-x-3 sm:space-x-4">
-                <Link to="/products/iot-tracker" className="flex-1">
+                <Link to="/smart-home" className="flex-1">
                   <Button
                     variant="solid"
                     className="w-full bg-primary text-white cursor-pointer font-Rubik text-sm sm:text-base"

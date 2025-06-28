@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import AnimatedPage from "../src/components/ui/AnimatePage";
-import AboutUsPage from "../src/pages/AboutUs";
+import AboutUsPage from "./components/AboutUs/AboutUsPage";
 import AddProduct from "./components/AdminDashBoard/AddProduct";
 import AdminLayout from "./components/AdminDashBoard/AdminLayout";
 import AdminReviews from "./components/AdminDashBoard/AdminReviews";
