@@ -2,7 +2,7 @@ import "react-medium-image-zoom/dist/styles.css";
 
 import React, { useEffect, useState } from "react";
 
-import { format, formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
 import {
   collection,
   doc,
@@ -18,11 +18,14 @@ import toast from "react-hot-toast";
 import {
   FaBoxOpen,
   FaHeart,
+  FaRegStar,
   FaShieldAlt,
   FaShoppingCart,
   FaStar,
+  FaStarHalfAlt,
   FaTruck,
 } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import Zoom from "react-medium-image-zoom";
 import { Link, useParams } from "react-router-dom";
 
@@ -148,7 +151,7 @@ const SingleProductPage = () => {
           product.image ||
           product.imageUrl ||
           product.images?.[0] ||
-          "/fallback.jpg", // 👈 fix here
+          "/fallback.jpg",
         quantity,
       };
 
@@ -174,8 +177,8 @@ const SingleProductPage = () => {
           product.image ||
           product.imageUrl ||
           product.thumbnail ||
-          product.images?.[0] || // ✅ most common in Firestore
-          "/placeholder.jpg", // fallback image
+          product.images?.[0] ||
+          "/placeholder.jpg",
       };
 
       await addToWishlist(wishlistItem);
@@ -209,101 +212,139 @@ const SingleProductPage = () => {
     );
 
   const actualPrice = product.salePrice || product.price;
-
   const placeholderImage = "https://via.placeholder.com/600x400?text=No+Image";
+
+  // Render star rating with half stars
+  const renderStars = (rating) => {
+    const stars = [];
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push(<FaStar key={i} className="text-yellow-400" />);
+      } else if (i === fullStars + 1 && hasHalfStar) {
+        stars.push(<FaStarHalfAlt key={i} className="text-yellow-400" />);
+      } else {
+        stars.push(<FaRegStar key={i} className="text-yellow-400" />);
+      }
+    }
+    return stars;
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 dark:bg-gray-900 dark:text-white">
-      {/* Improved Breadcrumb Navigation */}
-      <nav className="flex mb-6" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center space-x-1 md:space-x-2">
-          <li className="inline-flex items-center">
-            <Link
-              to="/"
-              className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <div className="flex items-center">
-              <svg
-                className="w-3 h-3 text-gray-400 mx-1"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 9 4-4-4-4"
-                />
-              </svg>
+      {/* Enhanced Breadcrumb with Back Button */}
+      <div className="flex justify-between items-center mb-6">
+        <Link
+          to="/products"
+          className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
+        >
+          <IoMdArrowRoundBack className="mr-2" />
+          Back to Products
+        </Link>
+
+        <nav className="hidden md:flex" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-2">
+            <li className="inline-flex items-center">
               <Link
-                to="/products"
-                className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
+                to="/"
+                className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white"
               >
-                Products
+                Home
               </Link>
-            </div>
-          </li>
-          <li aria-current="page">
-            <div className="flex items-center">
-              <svg
-                className="w-3 h-3 text-gray-400 mx-1"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 9 4-4-4-4"
-                />
-              </svg>
-              <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
-                {product.name}
-              </span>
-            </div>
-          </li>
-        </ol>
-      </nav>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <svg
+                  className="w-3 h-3 text-gray-400 mx-1"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <Link
+                  to="/products"
+                  className="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white"
+                >
+                  Products
+                </Link>
+              </div>
+            </li>
+            <li aria-current="page">
+              <div className="flex items-center">
+                <svg
+                  className="w-3 h-3 text-gray-400 mx-1"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+                <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2 dark:text-gray-400">
+                  {product.name}
+                </span>
+              </div>
+            </li>
+          </ol>
+        </nav>
+      </div>
 
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        {/* Product Gallery Section */}
         <div className="space-y-4">
-          <Zoom>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              key={activeImage}
-              className="rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800  flex items-center justify-center"
-            >
-              <img
-                src={
-                  imageError
-                    ? placeholderImage
-                    : activeImage || placeholderImage
-                }
-                alt={product.name}
-                onError={handleImageError}
-                className=" w-full h-auto object-contain transition-transform duration-300 hover:scale-105"
-              />
-            </motion.div>
-          </Zoom>
+          <div className="relative group">
+            <Zoom>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                key={activeImage}
+                className="rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center "
+              >
+                <img
+                  src={
+                    imageError
+                      ? placeholderImage
+                      : activeImage || placeholderImage
+                  }
+                  alt={product.name}
+                  onError={handleImageError}
+                  className="h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                />
+              </motion.div>
+            </Zoom>
 
-          <div className="grid grid-cols-5 gap-2">
+            {/* Sale Badge */}
+            {product.salePrice && (
+              <div className="absolute top-4 left-4 bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                {((1 - actualPrice / product.price) * 100).toFixed(0)}% OFF
+              </div>
+            )}
+          </div>
+
+          {/* Thumbnail Gallery */}
+          <div className="grid grid-cols-5 gap-3">
             {product.thumbnails?.length > 0 ? (
               product.thumbnails.map((thumb, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveImage(thumb)}
-                  className={`aspect-square rounded-md overflow-hidden border-2 transition-all ${
+                  className={`aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200 ${
                     activeImage === thumb
                       ? "border-blue-500 ring-2 ring-blue-200 dark:ring-blue-800"
                       : "border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600"
@@ -328,58 +369,45 @@ const SingleProductPage = () => {
           </div>
         </div>
 
-        {/* Enhanced Product Info Section */}
+        {/* Product Details Section */}
         <div className="space-y-6">
-          <div className="border-b pb-4 border-gray-400">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold md:mb-4 text-primary dark:text-white">
+          <div className="border-b pb-4 border-gray-200 dark:border-gray-700">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
               {product.name}
             </h1>
 
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex items-center gap-3 mt-3">
               <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar
-                    key={i}
-                    className={`text-lg ${
-                      i < (product.rating || 0)
-                        ? "text-yellow-400"
-                        : "text-gray-300 dark:text-gray-600"
-                    }`}
-                  />
-                ))}
+                {renderStars(product.rating || 0)}
               </div>
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                ({product.reviewCount || 0} reviews) |{" "}
-                <span
-                  className={`font-medium ${
-                    product.stock > 0 ? "text-green-600" : "text-red-600"
-                  }`}
-                >
-                  {product.stock > 0 ? "In Stock" : "Out of Stock"}
-                </span>
+                {product.reviewCount || 0} reviews
               </span>
+              <span className="text-sm font-medium px-2 py-1 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                {product.stock > 0 ? "In Stock" : "Out of Stock"}
+              </span>
+              {product.sku && (
+                <span className="text-xs text-gray-500 dark:text-gray-400 ml-auto">
+                  SKU: {product.sku}
+                </span>
+              )}
             </div>
           </div>
 
           <div className="space-y-4">
-            <p className="text-gray-700 font-Roboto text-[16px] dark:text-gray-300">
+            <p className="text-gray-700 dark:text-gray-300">
               {product.shortDescription ||
                 product.introduction?.substring(0, 200) + "..."}
             </p>
 
             <div className="flex items-baseline gap-3">
-              <p className="text-xl sm:text-2xl md:text-3xl font-bold text-primary dark:text-white">
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">
                 ${actualPrice.toFixed(2)}
               </p>
               {product.salePrice && product.price && (
                 <p className="text-lg text-gray-500 line-through">
                   ${product.price.toFixed(2)}
                 </p>
-              )}
-              {product.salePrice && (
-                <span className="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">
-                  Save {((1 - actualPrice / product.price) * 100).toFixed(0)}%
-                </span>
               )}
             </div>
 
@@ -460,7 +488,8 @@ const SingleProductPage = () => {
                   </Button>
                 </div>
 
-                <div className="grid grid-cols-3 gap-4 pt-6">
+                {/* Product Highlights */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-6">
                   <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-full">
                       <FaTruck className="text-blue-600 dark:text-blue-400" />
@@ -481,10 +510,10 @@ const SingleProductPage = () => {
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        In Stock
+                        Easy Returns
                       </p>
                       <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        Ships Today
+                        30 Days Policy
                       </p>
                     </div>
                   </div>
@@ -509,15 +538,15 @@ const SingleProductPage = () => {
         </div>
       </div>
 
-      {/* Enhanced Tabs Section */}
+      {/* Product Tabs Section */}
       <div className="mt-16">
         <div className="border-b border-gray-200 dark:border-gray-700">
-          <nav className="flex -mb-px">
+          <nav className="flex -mb-px space-x-8">
             {["description", "reviews", "related"].map((key) => (
               <button
                 key={key}
                 onClick={() => setTab(key)}
-                className={`mr-8 py-4 px-1 border-b-2 font-medium text-sm ${
+                className={`py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap ${
                   tab === key
                     ? "border-blue-500 text-blue-600 dark:text-blue-400 dark:border-blue-400"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
@@ -525,7 +554,7 @@ const SingleProductPage = () => {
               >
                 {key.charAt(0).toUpperCase() + key.slice(1)}
                 {key === "reviews" && product.reviewCount > 0 && (
-                  <span className="ml-1 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                  <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                     {product.reviewCount}
                   </span>
                 )}
@@ -534,7 +563,7 @@ const SingleProductPage = () => {
           </nav>
         </div>
 
-        <div className="py-6">
+        <div className="py-8">
           {tab === "description" && (
             <motion.div
               initial={{ opacity: 0 }}
@@ -558,70 +587,67 @@ const SingleProductPage = () => {
               animate={{ opacity: 1 }}
               className="space-y-6"
             >
-              {/* Only show approved reviews */}
               {liveReviews.length > 0 ? (
                 liveReviews.map((review) => (
                   <div
                     key={review.id}
-                    className="border rounded p-4 bg-gray-50 dark:bg-gray-800"
+                    className="border rounded-lg p-6 bg-white dark:bg-gray-800 shadow-sm"
                   >
-                    <div className="flex items-center gap-2 mb-1">
-                      <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center font-bold text-white">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center font-bold text-blue-600 dark:text-blue-200">
                         {review.userName?.[0]?.toUpperCase() || "A"}
                       </div>
-                      <span className="font-semibold">
-                        {review.userName || "Anonymous"}
-                      </span>
-                      <div className="flex ml-auto text-yellow-500">
-                        {[...Array(5)].map((_, j) => (
-                          <FaStar
-                            key={j}
-                            className={
-                              j < (review.rating || 0)
-                                ? "text-yellow-500"
-                                : "text-gray-300"
-                            }
-                          />
-                        ))}
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-900 dark:text-white">
+                          {review.userName || "Anonymous"}
+                        </h4>
+                        <div className="flex items-center gap-1">
+                          {[...Array(5)].map((_, j) => (
+                            <FaStar
+                              key={j}
+                              className={
+                                j < (review.rating || 0)
+                                  ? "text-yellow-400"
+                                  : "text-gray-300 dark:text-gray-600"
+                              }
+                              size={14}
+                            />
+                          ))}
+                        </div>
                       </div>
+                      {review.date && (
+                        <span className="text-xs text-gray-500">
+                          {(() => {
+                            try {
+                              const reviewDate = review.date.toDate
+                                ? review.date.toDate()
+                                : new Date(review.date);
+
+                              if (isNaN(reviewDate.getTime()))
+                                throw new Error("Invalid date");
+
+                              return format(reviewDate, "MMM d, yyyy");
+                            } catch (err) {
+                              return "Invalid date";
+                            }
+                          })()}
+                        </span>
+                      )}
                     </div>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                    <p className="text-gray-700 dark:text-gray-300">
                       {review.comment || "No comment"}
                     </p>
-                    {review.date &&
-                      (() => {
-                        try {
-                          const reviewDate = review.date.toDate
-                            ? review.date.toDate()
-                            : new Date(review.date);
-
-                          if (isNaN(reviewDate.getTime()))
-                            throw new Error("Invalid date");
-
-                          return (
-                            <p className="text-xs text-gray-500 mt-2">
-                              {format(reviewDate, "dd MMM yyyy, hh:mm a")}{" "}
-                              <span className="text-gray-400">
-                                (
-                                {formatDistanceToNow(reviewDate, {
-                                  addSuffix: true,
-                                })}
-                                )
-                              </span>
-                            </p>
-                          );
-                        } catch (err) {
-                          console.warn("Bad review date:", review.date);
-                          return (
-                            <p className="text-xs text-red-500">Invalid date</p>
-                          );
-                        }
-                      })()}
                   </div>
                 ))
               ) : (
-                <div className="text-center py-6 text-gray-500">
-                  No approved reviews yet.
+                <div className="text-center py-10">
+                  <FaStar className="mx-auto text-gray-300 text-4xl mb-3" />
+                  <h4 className="text-lg font-medium text-gray-700 dark:text-gray-300">
+                    No reviews yet
+                  </h4>
+                  <p className="text-gray-500 mt-1">
+                    Be the first to review this product
+                  </p>
                 </div>
               )}
             </motion.div>

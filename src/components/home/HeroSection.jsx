@@ -80,6 +80,7 @@ export default function HeroSection() {
             src="https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/hero%20one.png?raw=true"
             alt="Connected future illustration"
             className="relative z-10 w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
+            rel="preload"
           />
 
           {/* Floating elements */}

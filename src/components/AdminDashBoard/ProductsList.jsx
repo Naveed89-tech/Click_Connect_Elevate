@@ -53,7 +53,7 @@ const ProductsList = () => {
           </select>
           <Link
             to="/admin/products/add"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition-colors"
+            className="bg-primary text-white px-4 py-2 rounded-lg flex items-center hover:bg-primary/70 transition-colors"
           >
             <FiPlus className="mr-2" />
             Add Product

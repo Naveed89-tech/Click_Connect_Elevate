@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
+
+// Fetch all reviews across products
 import {
+  collection,
   collectionGroup,
   getDocs,
-  updateDoc,
-  doc,
   query,
+  updateDoc,
   where,
-  getDoc,
-  collection,
 } from "firebase/firestore";
+
 import { db } from "../../firebase";
 
 const AdminReviews = () => {

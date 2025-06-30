@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { BsCheckCircleFill, BsCircle } from "react-icons/bs";
+import { FiEdit2, FiPlus, FiX } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+
+import UserProfile from "../../components/userAdmin/UserProfile";
 import { useAuth } from "../../context/AuthContext";
 import { db } from "../../firebase";
-import { useNavigate } from "react-router-dom";
-import { FiEdit2, FiX, FiPlus } from "react-icons/fi";
-import { BsCircle, BsCheckCircleFill } from "react-icons/bs";
-import UserProfile from "../../components/userAdmin/UserProfile"; // Import your UserProfile component
 
 const AddressSelection = ({ onNext }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [addresses, setAddresses] = useState([]);
+  const [filteredAddresses, setFilteredAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [currentAddressId, setCurrentAddressId] = useState(null);
@@ -29,8 +32,23 @@ const AddressSelection = ({ onNext }) => {
         }));
 
         setAddresses(userAddresses);
-        if (userAddresses.length > 0) {
-          setSelectedAddress(userAddresses[0].id);
+
+        // Filter to get one address per type
+        const uniqueTypeAddresses = [];
+        const typesAdded = new Set();
+
+        // Process addresses in reverse to get the most recent addresses first
+        [...userAddresses].reverse().forEach((address) => {
+          if (!typesAdded.has(address.type)) {
+            typesAdded.add(address.type);
+            uniqueTypeAddresses.push(address);
+          }
+        });
+
+        setFilteredAddresses(uniqueTypeAddresses);
+
+        if (uniqueTypeAddresses.length > 0) {
+          setSelectedAddress(uniqueTypeAddresses[0].id);
         }
       } catch (error) {
         console.error("Error fetching addresses:", error);
@@ -38,7 +56,7 @@ const AddressSelection = ({ onNext }) => {
     };
 
     fetchAddresses();
-  }, [user, showAddressForm]); // Add showAddressForm to dependencies
+  }, [user, showAddressForm]);
 
   const handleEditAddress = (addressId) => {
     setCurrentAddressId(addressId);
@@ -54,7 +72,7 @@ const AddressSelection = ({ onNext }) => {
     if (!user) return;
     await deleteDoc(doc(db, "users", user.uid, "addresses", addressId));
     setAddresses((prev) => prev.filter((a) => a.id !== addressId));
-    console.log("delete clicked");
+    setFilteredAddresses((prev) => prev.filter((a) => a.id !== addressId));
   };
 
   const handleBackFromForm = () => {
@@ -67,7 +85,7 @@ const AddressSelection = ({ onNext }) => {
         action={currentAddressId ? "edit" : "add"}
         addressId={currentAddressId}
         fromComponent="AddressSelection"
-        onBack={handleBackFromForm} // This is crucial
+        onBack={handleBackFromForm}
       />
     );
   }
@@ -75,21 +93,29 @@ const AddressSelection = ({ onNext }) => {
   return (
     <div className="max-w-4xl mx-auto p-6">
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-2xl font-bold">Select Address</h2>
-        <div className="flex items-center space-x-6 text-sm text-gray-500">
-          <span className="text-blue-600 font-medium">Step 1: Address</span>
-          <span>Step 2: Shipping</span>
-          <span>Step 3: Payment</span>
+        {/* Heading */}
+        <h2 className="text-2xl font-bold text-text-primary">Select Address</h2>
+
+        {/* Checkout Steps */}
+        <div className="flex items-center space-x-6 text-sm">
+          {/* Active step */}
+          <div className="text-sm font-medium text-primary">
+            <span className="text-secondary">Step&nbsp;1</span>&nbsp;Address
+          </div>
+
+          {/* Upcoming steps */}
+          <span className="text-text-muted">Step&nbsp;2: Shipping</span>
+          <span className="text-text-muted">Step&nbsp;3: Payment</span>
         </div>
       </div>
 
       <div className="space-y-4 mb-8">
-        {addresses.map((address) => (
+        {filteredAddresses.map((address) => (
           <div
             key={address.id}
             className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-colors ${
               selectedAddress === address.id
-                ? "border-blue-500 bg-blue-50"
+                ? "border-primary bg-primary/3"
                 : "border-gray-200 hover:border-gray-300"
             }`}
             onClick={() => setSelectedAddress(address.id)}
@@ -97,7 +123,7 @@ const AddressSelection = ({ onNext }) => {
             <div className="flex items-start space-x-4">
               <div className="mt-1">
                 {selectedAddress === address.id ? (
-                  <BsCheckCircleFill className="text-blue-600 text-xl" />
+                  <BsCheckCircleFill className="text-primary text-xl" />
                 ) : (
                   <BsCircle className="text-gray-400 text-xl" />
                 )}
@@ -120,7 +146,7 @@ const AddressSelection = ({ onNext }) => {
                   e.stopPropagation();
                   handleEditAddress(address.id);
                 }}
-                className="text-gray-600 hover:text-blue-600"
+                className="text-gray-600 hover:text-primary"
               >
                 <FiEdit2 />
               </button>
@@ -140,7 +166,7 @@ const AddressSelection = ({ onNext }) => {
 
       <button
         onClick={handleAddAddress}
-        className="flex items-center text-blue-600 font-medium mb-8"
+        className="flex items-center text-secondary cursor-pointer font-medium mb-8"
       >
         <FiPlus className="mr-1" /> Add New Address
       </button>
@@ -155,7 +181,7 @@ const AddressSelection = ({ onNext }) => {
             const selected = addresses.find((a) => a.id === selectedAddress);
             onNext(selected);
           }}
-          className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/70 transition-colors"
         >
           Continue to Shipping
         </button>

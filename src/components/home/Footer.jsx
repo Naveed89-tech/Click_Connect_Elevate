@@ -23,7 +23,7 @@ function Footer() {
               className="h-18 object-contain justify-self-start"
             />
           </Link>
-          <p className="text-white opacity-50 text-[16px] leading-relaxed mt-[20px] font-roboto ">
+          <p className="text-white opacity-70 text-[16px] leading-relaxed mt-[20px] font-Roboto ">
             Empowering smart living through intelligent devices. Your connected
             future starts here.
           </p>
@@ -57,7 +57,7 @@ function Footer() {
         </div>
 
         {/* Categories */}
-        <div>
+        <div className="font-Roboto">
           <h4 className="text-white font-semibold mb-4 font-Roboto">
             Categories
           </h4>
@@ -112,7 +112,7 @@ function Footer() {
 
       {/* BOTTOM FOOTER */}
       <div className="border-t border-gray-700 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-white opacity-70 leading-relaxed font-Montserrat">
           © 2025 Connect Automate & Elevate. All rights reserved.
         </p>
         <div className="flex gap-4">

@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Link } from "react-router-dom";
+
 import Button from "./button";
 
 const ProductCard = ({ product }) => {
@@ -13,6 +15,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="relative bg-white w-full max-w-sm mx-auto rounded-xl shadow transition-transform transform hover:-translate-y-1 hover:shadow-lg duration-300 flex flex-col h-full font-Rubik">
       {/* Product Image */}
+
       <div className="w-full h-auto sm:h-[300px] bg-gray-100 overflow-hidden rounded-t-xl">
         <img
           src={getImageUrl()}
@@ -26,8 +29,13 @@ const ProductCard = ({ product }) => {
         />
       </div>
 
-      {/* Product Info */}
+      {/*     
+      
+      */}
       <div className="p-3 sm:p-4 flex flex-col sm:flex-grow justify-center">
+        <div className="category_tag px-[8px] py-[4px] bg-secondary/30 uppercase rounded-[10px] mb-3 font-semibold text-[#333] text-[12px] max-w-fit  ">
+          {product.category}
+        </div>
         {/* TITLE - fixed height */}
         <h3 className="text-sm sm:text-[16px] md:text-[18px] font-semibold text-gray-900 sm:leading-6 sm:mb-2 line-clamp-2 min-h-[48px]">
           {product.name || "Unnamed Product"}

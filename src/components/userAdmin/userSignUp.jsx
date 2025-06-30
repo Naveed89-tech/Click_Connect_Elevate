@@ -1,11 +1,14 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import { useAuth } from "../../context/AuthContext";
-import toast from "react-hot-toast";
-import { getFirebaseErrorMessage } from "../../utils/firebaseErrors";
-import { db } from "../../firebase";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+
 import { updateProfile } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
+import { FiArrowRight, FiLock, FiMail, FiX } from "react-icons/fi";
+
+import { useAuth } from "../../context/AuthContext";
+import { db } from "../../firebase";
 
 // Constants for error messages
 const ERROR_MESSAGES = {
@@ -167,79 +170,75 @@ function AuthModal({ isOpen, onClose }) {
 
   return ReactDOM.createPortal(
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+      className="fixed font-Roboto inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn"
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-full max-w-4xl overflow-hidden">
-        <div className="flex flex-col md:flex-row">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden transition-all duration-300 transform scale-95 animate-scaleIn">
+        <div className="flex flex-col md:flex-row h-full">
           {/* Form Section */}
-          <div className="w-full md:w-1/2 p-6 md:p-8">
-            <div className="flex justify-between items-start mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {isSignUp ? "Create your account" : "Welcome back"}
-              </h2>
+          <div className="w-full md:w-1/2 p-8">
+            <div className="flex justify-between items-start mb-8">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {isSignUp ? "Create Account" : "Welcome Back"}
+                </h2>
+                <p className="text-gray-500 dark:text-gray-400 mt-1">
+                  {isSignUp
+                    ? "Join & Explore Smart Devices"
+                    : "Sign in to Start Shopping"}
+                </p>
+              </div>
               <button
                 onClick={onClose}
-                className="
-    w-8 h-8                
-    flex items-center justify-center 
-    rounded-full          
-    bg-secondary/70       
-    text-primary font-Rubik text-sm hover:text-gray-700
-    hover:bg-secondary/80 dark:text-white
-    transition-colors hover:cursor-pointer
-  "
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                 aria-label="Close modal"
               >
-                &times;
+                <FiX size={20} />
               </button>
             </div>
 
             <button
               onClick={handleGoogleLogin}
               disabled={isSubmitting}
-              className="w-full flex items-center justify-center gap-2 border border-gray-300 dark:border-gray-600 rounded-lg py-2.5 px-4 mb-6 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+              className="w-full flex items-center justify-center gap-3 border border-gray-200 dark:border-gray-700 rounded-xl py-3 px-4 mb-6 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
             >
-              <img
-                src="https://www.svgrepo.com/show/475656/google-color.svg"
-                alt="Google logo"
-                className="w-5 h-5"
-                aria-hidden="true"
-              />
-              {isSignUp ? "Sign up with Google" : "Sign in with Google"}
+              <FcGoogle size={20} />
+              <span>
+                {isSignUp ? "Continue with Google" : "Sign in with Google"}
+              </span>
             </button>
 
             <div className="flex items-center my-6">
-              <div className="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
-              <span className="mx-4 text-gray-500 dark:text-gray-400 text-sm">
-                OR
+              <div className="flex-1 border-t border-gray-200 dark:border-gray-700"></div>
+              <span className="mx-4 text-gray-400 dark:text-gray-500 text-sm">
+                or continue with email
               </span>
-              <div className="flex-1 border-t border-gray-300 dark:border-gray-600"></div>
+              <div className="flex-1 border-t border-gray-200 dark:border-gray-700"></div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="email" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  name="email"
-                  ref={emailRef}
-                  placeholder="Email address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className={`w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-primary focus:border-transparent ${
-                    errors.email
-                      ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-800"
-                      : "border-gray-300 dark:border-gray-600 dark:bg-gray-800"
-                  }`}
-                  aria-invalid={!!errors.email}
-                  aria-describedby={errors.email ? "email-error" : undefined}
-                />
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="space-y-1">
+                <div className="relative">
+                  <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    ref={emailRef}
+                    placeholder="Email address"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className={`w-full pl-10 pr-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary focus:border-transparent ${
+                      errors.email
+                        ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-800"
+                        : "border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+                    }`}
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                  />
+                </div>
                 {errors.email && (
                   <p
                     id="email-error"
@@ -250,29 +249,29 @@ function AuthModal({ isOpen, onClose }) {
                 )}
               </div>
 
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  minLength={6}
-                  className={`w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-primary focus:border-transparent ${
-                    errors.password
-                      ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-800"
-                      : "border-gray-300 dark:border-gray-600 dark:bg-gray-800"
-                  }`}
-                  aria-invalid={!!errors.password}
-                  aria-describedby={
-                    errors.password ? "password-error" : undefined
-                  }
-                />
+              <div className="space-y-1">
+                <div className="relative">
+                  <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    id="password"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    minLength={6}
+                    className={`w-full pl-10 pr-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary focus:border-transparent ${
+                      errors.password
+                        ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-800"
+                        : "border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+                    }`}
+                    aria-invalid={!!errors.password}
+                    aria-describedby={
+                      errors.password ? "password-error" : undefined
+                    }
+                  />
+                </div>
                 {errors.password && (
                   <p
                     id="password-error"
@@ -296,31 +295,31 @@ function AuthModal({ isOpen, onClose }) {
               </div>
 
               {isSignUp && (
-                <div>
-                  <label htmlFor="confirmPassword" className="sr-only">
-                    Confirm password
-                  </label>
-                  <input
-                    id="confirmPassword"
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    required
-                    minLength={6}
-                    className={`w-full px-4 py-2.5 rounded-lg border focus:ring-2 focus:ring-primary focus:border-transparent ${
-                      errors.confirmPassword
-                        ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-800"
-                        : "border-gray-300 dark:border-gray-600 dark:bg-gray-800"
-                    }`}
-                    aria-invalid={!!errors.confirmPassword}
-                    aria-describedby={
-                      errors.confirmPassword
-                        ? "confirmPassword-error"
-                        : undefined
-                    }
-                  />
+                <div className="space-y-1">
+                  <div className="relative">
+                    <FiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <input
+                      id="confirmPassword"
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirm password"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      required
+                      minLength={6}
+                      className={`w-full pl-10 pr-4 py-3 rounded-xl border focus:ring-2 focus:ring-primary focus:border-transparent ${
+                        errors.confirmPassword
+                          ? "border-red-500 focus:ring-red-200 dark:focus:ring-red-800"
+                          : "border-gray-200 dark:border-gray-700 dark:bg-gray-800"
+                      }`}
+                      aria-invalid={!!errors.confirmPassword}
+                      aria-describedby={
+                        errors.confirmPassword
+                          ? "confirmPassword-error"
+                          : undefined
+                      }
+                    />
+                  </div>
                   {errors.confirmPassword && (
                     <p
                       id="confirmPassword-error"
@@ -335,12 +334,12 @@ function AuthModal({ isOpen, onClose }) {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2.5 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-70"
+                className="w-full bg-primary text-white font-medium py-3 px-4 rounded-xl transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-70 flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
-                  <span className="inline-flex items-center">
+                  <>
                     <svg
-                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      className="animate-spin h-5 w-5 text-white"
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -360,21 +359,22 @@ function AuthModal({ isOpen, onClose }) {
                       ></path>
                     </svg>
                     Processing...
-                  </span>
-                ) : isSignUp ? (
-                  "Sign up"
+                  </>
                 ) : (
-                  "Sign in"
+                  <>
+                    {isSignUp ? "Create Account" : "Sign In"}
+                    <FiArrowRight />
+                  </>
                 )}
               </button>
             </form>
 
-            <div className="mt-6 text-center text-sm text-gray-600 dark:text-gray-400">
+            <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
               {isSignUp ? "Already have an account?" : "Don't have an account?"}
               <button
                 onClick={() => setIsSignUp(!isSignUp)}
                 disabled={isSubmitting}
-                className="ml-1 text-blue-600 dark:text-blue-400 hover:underline focus:outline-none"
+                className="ml-1 text-blue-600 dark:text-blue-400 font-medium hover:underline focus:outline-none"
               >
                 {isSignUp ? "Sign in" : "Sign up"}
               </button>
@@ -382,23 +382,18 @@ function AuthModal({ isOpen, onClose }) {
           </div>
 
           {/* Visual Section */}
-          {/* Right - Visual */}
-          <div className="hidden md:block md:w-1/2 relative">
-            {/* Image with gradient overlay */}
-            <div className="relative w-full h-full">
-              <img
-                src="https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/Signup_Form.png?raw=true"
-                alt="Signup visual"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-primary-dark/50" />
+          <div className="hidden md:block md:w-1/2 relative bg-gradient-to-br from-primary to-primary-dark">
+            <div className="absolute inset-0 flex flex-col justify-end p-10 text-white">
+              <div className="max-w-xs">
+                <h3 className="text-3xl font-bold mb-3">Join our community</h3>
+                <p className="opacity-90">
+                  {isSignUp
+                    ? "Start your journey with us today"
+                    : "Welcome back to your creative space"}
+                </p>
+              </div>
             </div>
-
-            {/* Text overlay */}
-            <div className="absolute bottom-5 left-10 text-primary font-Roboto  max-w-sm">
-              <h3 className="text-2xl font-bold">Bring your ideas to life.</h3>
-              <p className="mt-2 opacity-90">Join our community of creators</p>
-            </div>
+            <div className="absolute inset-0 opacity-10 bg-[url('https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/Signup_Form.png?raw=true')] bg-cover bg-center"></div>
           </div>
         </div>
       </div>

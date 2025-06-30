@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { BsCheckCircle, BsCircle, BsChevronDown } from "react-icons/bs";
-import DatePicker from "react-datepicker";
-import { useCheckout } from "../../context/CheckoutContext";
 import "react-datepicker/dist/react-datepicker.css";
+
+import React, { useEffect, useState } from "react";
+
 import { format } from "date-fns";
+import { motion } from "framer-motion";
+import DatePicker from "react-datepicker";
+import { BsCheckCircleFill, BsChevronDown, BsCircle } from "react-icons/bs";
+
+import { useCheckout } from "../../context/CheckoutContext";
 
 /* ------------------------------------------------------------------ */
 /* static options – price for id 3 will be computed on the fly        */
@@ -65,11 +69,20 @@ const ShippingMethod = ({ onNext, onBack }) => {
       <div className="max-w-3xl mx-auto">
         {/* progress bar header */}
         <div className="flex justify-between mb-10">
-          <div className="text-sm text-gray-400">Step 1 Address</div>
-          <div className="text-sm text-gray-700 font-medium">
-            <span className="text-blue-600">Step 2</span> Shipping
+          {/* Step 1 – inactive */}
+          <div className="text-sm text-text-muted">
+            Step&nbsp;1&nbsp;Address
           </div>
-          <div className="text-sm text-gray-400">Step 3 Payment</div>
+
+          {/* Step 2 – active */}
+          <div className="text-sm font-medium text-primary">
+            <span className="text-secondary">Step&nbsp;2</span>&nbsp;Shipping
+          </div>
+
+          {/* Step 3 – inactive */}
+          <div className="text-sm text-text-muted">
+            Step&nbsp;3&nbsp;Payment
+          </div>
         </div>
 
         <h2 className="text-xl font-semibold mb-6">Shipment Method</h2>
@@ -86,16 +99,16 @@ const ShippingMethod = ({ onNext, onBack }) => {
                 key={option.id}
                 className={`flex items-center justify-between p-5 rounded-lg border cursor-pointer bg-gray-50 hover:border-blue-500 transition ${
                   selectedId === option.id
-                    ? "border-blue-500"
+                    ? "border-primary"
                     : "border-gray-200"
                 }`}
                 onClick={() => setSelectedId(option.id)}
               >
                 {/* radio + label */}
                 <div className="flex items-start gap-4">
-                  <div className="pt-1 text-blue-600">
+                  <div className="pt-1 text-primary">
                     {selectedId === option.id ? (
-                      <BsCheckCircle size={20} />
+                      <BsCheckCircleFill size={20} />
                     ) : (
                       <BsCircle size={20} />
                     )}
@@ -127,14 +140,20 @@ const ShippingMethod = ({ onNext, onBack }) => {
                       />
                       {/* mini tooltip once a date is chosen */}
                       {scheduledDate && (
-                        <div className="absolute top-full left-0 mt-2 bg-white shadow-lg rounded-md p-3 z-10 border border-gray-200">
-                          <div className="text-sm font-medium text-gray-700">
+                        <motion.div
+                          drag
+                          dragMomentum={false} // stops it “gliding” after release
+                          className="absolute bottom-full left-0 mb-2
+               bg-white shadow-lg rounded-md p-3 z-20
+               border border-border cursor-move" // ✨ cursor hint
+                        >
+                          <div className="text-sm font-medium text-text-primary">
                             Selected: {format(scheduledDate, "MMMM d, yyyy")}
                           </div>
-                          <div className="text-sm text-green-600 font-semibold mt-1">
+                          <div className="text-sm text-success font-semibold mt-1">
                             +${dynPrice.toFixed(2)} (Scheduled)
                           </div>
-                        </div>
+                        </motion.div>
                       )}
                     </div>
                   ) : (
