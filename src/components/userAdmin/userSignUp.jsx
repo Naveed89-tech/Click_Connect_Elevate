@@ -151,16 +151,33 @@ function AuthModal({ isOpen, onClose }) {
   const handlePasswordReset = async () => {
     if (!formData.email.includes("@")) {
       setErrors({ email: "Please enter a valid email to reset password" });
+      toast.error("Please enter a valid email address");
       return;
     }
 
     try {
       setIsSubmitting(true);
       await resetPassword(formData.email);
-      toast.success("Password reset email sent. Check your inbox.");
+      toast.success(
+        "We've sent a password reset link to your email. Please check your inbox and spam folder. The link will expire in 1 hour.",
+        {
+          duration: 6000,
+          style: {
+            maxWidth: "500px",
+            padding: "16px",
+          },
+        }
+      );
     } catch (err) {
       console.error("Password reset error:", err);
-      setErrors({ email: "Unable to send reset email. Please try again." });
+      let errorMessage = "Unable to send reset email. Please try again.";
+
+      if (err.code === "auth/user-not-found") {
+        errorMessage = "No account found with this email address";
+      }
+
+      setErrors({ email: errorMessage });
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }

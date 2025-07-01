@@ -27,26 +27,52 @@ const AdminReviews = () => {
           snapshot.docs.map(async (d) => {
             const pathParts = d.ref.path.split("/");
             const productId = pathParts[1];
+            const reviewData = d.data();
 
             let hasPurchased = false;
             try {
-              if (d.data().userId) {
-                const ordersRef = collection(db, "orders");
-                const q = query(
-                  ordersRef,
-                  where("userId", "==", d.data().userId)
+              if (reviewData.userId) {
+                // Check both orders collection and any user-specific orders subcollection
+                const ordersQuery = query(
+                  collection(db, "orders"),
+                  where("userId", "==", reviewData.userId)
                 );
 
-                const querySnapshot = await getDocs(q);
+                // Also check user's orders subcollection if it exists
+                const userOrdersQuery = query(
+                  collection(db, "users", reviewData.userId, "orders")
+                );
 
-                querySnapshot.forEach((orderDoc) => {
-                  const orderData = orderDoc.data();
-                  if (orderData.items && Array.isArray(orderData.items)) {
-                    hasPurchased = orderData.items.some(
-                      (item) => item.id === productId
-                    );
-                  }
-                });
+                const [ordersSnapshot, userOrdersSnapshot] = await Promise.all([
+                  getDocs(ordersQuery),
+                  getDocs(userOrdersQuery),
+                ]);
+
+                // Check both order locations for the product
+                const checkOrders = (snapshot) => {
+                  let found = false;
+                  snapshot.forEach((orderDoc) => {
+                    const orderData = orderDoc.data();
+                    if (
+                      orderData.items?.some((item) => item.id === productId)
+                    ) {
+                      found = true;
+                    }
+                    // Also check for product variants if needed
+                    if (
+                      orderData.items?.some(
+                        (item) => item.productId === productId
+                      )
+                    ) {
+                      found = true;
+                    }
+                  });
+                  return found;
+                };
+
+                hasPurchased =
+                  checkOrders(ordersSnapshot) ||
+                  checkOrders(userOrdersSnapshot);
               }
             } catch (err) {
               console.error("Error checking purchase:", err);
@@ -56,7 +82,7 @@ const AdminReviews = () => {
               id: d.id,
               productId,
               hasPurchased,
-              ...d.data(),
+              ...reviewData,
               ref: d.ref,
             };
           })

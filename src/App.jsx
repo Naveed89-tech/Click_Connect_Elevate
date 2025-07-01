@@ -3,6 +3,7 @@ import "./App.css";
 import React, { useState } from "react";
 
 import { AnimatePresence } from "framer-motion";
+import { Toaster } from "react-hot-toast";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import AnimatedPage from "../src/components/ui/AnimatePage";
@@ -47,7 +48,6 @@ import AdminLayout from "./pages/admin/AdminLayout";
 const HomePage = () => (
   <AnimatedPage>
     <HeroSection />
-
     <MainCategoriesSection />
     <BrowseByCategory />
     <ProductTabsSection />
@@ -63,10 +63,22 @@ function App() {
   return (
     <>
       <Header onLoginClick={() => setShowModal(true)} />
+      {/* ✅ Toaster for forget password */}
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 6000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+        }}
+      />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/" element={<HomePage />} />
+
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/products" element={<AllCategory />} />
