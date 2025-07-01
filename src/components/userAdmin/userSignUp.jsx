@@ -67,7 +67,18 @@ function AuthModal({ isOpen, onClose }) {
     document.addEventListener("keydown", handleEsc);
     return () => document.removeEventListener("keydown", handleEsc);
   }, [onClose]);
-
+  useEffect(() => {
+    if (!isOpen) {
+      // Reset form data when modal closes
+      setFormData({
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      // Clear any errors
+      setErrors({});
+    }
+  }, [isOpen]);
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));

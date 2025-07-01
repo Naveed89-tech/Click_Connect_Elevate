@@ -43,71 +43,6 @@ const Dashboard = () => {
   const [salesData, setSalesData] = useState([]);
   const [weeklyPerformanceData, setWeeklyPerformanceData] = useState([]);
   const [recentOrders, setRecentOrders] = useState([]);
-
-  useEffect(() => {
-    const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const orders = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setRecentOrders(orders);
-    });
-
-    return () => unsubscribe();
-  }, []);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const querySnapshot = await getDocs(collection(db, "products"));
-      const products = querySnapshot.docs.map((doc) => doc.data());
-
-      const topProducts = products
-        .filter((p) => p.price)
-        .map((p) => ({
-          name: p.name,
-          value: p.price * (p.reviewCount || 1),
-          fill: "#" + Math.floor(Math.random() * 16777215).toString(16),
-        }))
-        .sort((a, b) => b.value - a.value)
-        .slice(0, 5);
-
-      setTopProductsData(topProducts);
-
-      const monthlyRevenue = {};
-      products.forEach((p) => {
-        if (p.createdAt && p.price) {
-          const date = new Date(p.createdAt.seconds * 1000);
-          const month = date.toLocaleString("default", { month: "short" });
-          if (!monthlyRevenue[month]) {
-            monthlyRevenue[month] = { revenue: 0, orders: 0 };
-          }
-          monthlyRevenue[month].revenue += p.price;
-          monthlyRevenue[month].orders += 1;
-        }
-      });
-
-      const salesArray = Object.keys(monthlyRevenue).map((month) => ({
-        name: month,
-        ...monthlyRevenue[month],
-      }));
-
-      setSalesData(salesArray);
-
-      const weeklyStats = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
-        (day) => ({
-          day,
-          sales: Math.floor(Math.random() * 50) + 10,
-          visitors: Math.floor(Math.random() * 300) + 100,
-        })
-      );
-
-      setWeeklyPerformanceData(weeklyStats);
-    };
-
-    fetchProducts();
-  }, []);
-
   const [metrics, setMetrics] = useState([
     {
       icon: <FiDollarSign className="h-6 w-6 text-blue-600" />,
@@ -139,59 +74,169 @@ const Dashboard = () => {
     },
   ]);
 
+  // Fetch recent orders
   useEffect(() => {
-    const fetchMetrics = async () => {
-      const productsSnapshot = await getDocs(collection(db, "products"));
-      const products = productsSnapshot.docs.map((doc) => doc.data());
+    const q = query(collection(db, "orders"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const orders = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setRecentOrders(orders);
+    });
+    return () => unsubscribe();
+  }, []);
 
-      const totalRevenue = products.reduce((sum, p) => sum + (p.cost || 0), 0);
-      const totalOrders = products.length;
-      const avgOrder = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+  // Fetch all dashboard data
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        // Fetch orders for metrics and sales data
+        const ordersSnapshot = await getDocs(collection(db, "orders"));
+        const orders = ordersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-      setMetrics([
-        {
-          icon: <FiDollarSign className="h-6 w-6 text-blue-600" />,
-          title: "Total Revenue",
-          value: `$${totalRevenue.toFixed(2)}`,
-          change: "+12%", // Placeholder or real calc
-          isPositive: true,
-        },
-        {
-          icon: <FiShoppingCart className="h-6 w-6 text-green-600" />,
-          title: "Total Orders",
-          value: `${totalOrders}`,
-          change: "+5%",
-          isPositive: true,
-        },
-        {
-          icon: <FiPackage className="h-6 w-6 text-purple-600" />,
-          title: "Avg. Order Value",
-          value: `$${avgOrder.toFixed(2)}`,
-          change: "-2%",
-          isPositive: false,
-        },
-        {
-          icon: <FiUsers className="h-6 w-6 text-yellow-600" />,
-          title: "New Customers",
-          value: "87", // Replace with real value if you track users
-          change: "+8%",
-          isPositive: true,
-        },
-      ]);
+        // Fetch products for top products
+        const productsSnapshot = await getDocs(collection(db, "products"));
+        const products = productsSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Calculate metrics
+        const totalRevenue = orders.reduce(
+          (sum, order) => sum + (order.total || 0),
+          0
+        );
+        const totalOrders = orders.length;
+        const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+
+        // Get unique customers (assuming orders have userId)
+        const uniqueCustomers = new Set(orders.map((order) => order.userId))
+          .size;
+
+        setMetrics([
+          {
+            icon: <FiDollarSign className="h-6 w-6 text-blue-600" />,
+            title: "Total Revenue",
+            value: `$${totalRevenue.toFixed(2)}`,
+            change: "+12%", // You can implement real change calculation
+            isPositive: true,
+          },
+          {
+            icon: <FiShoppingCart className="h-6 w-6 text-green-600" />,
+            title: "Total Orders",
+            value: `${totalOrders}`,
+            change: "+5%",
+            isPositive: true,
+          },
+          {
+            icon: <FiPackage className="h-6 w-6 text-purple-600" />,
+            title: "Avg. Order Value",
+            value: `$${avgOrderValue.toFixed(2)}`,
+            change: "-2%",
+            isPositive: false,
+          },
+          {
+            icon: <FiUsers className="h-6 w-6 text-yellow-600" />,
+            title: "New Customers",
+            value: `${uniqueCustomers}`,
+            change: "+8%",
+            isPositive: true,
+          },
+        ]);
+
+        // Prepare sales data (group by month)
+        const monthlySales = {};
+        orders.forEach((order) => {
+          if (order.createdAt) {
+            const date = new Date(order.createdAt.seconds * 1000);
+            const month = date.toLocaleString("default", { month: "short" });
+            if (!monthlySales[month]) {
+              monthlySales[month] = { revenue: 0, orders: 0 };
+            }
+            monthlySales[month].revenue += order.total || 0;
+            monthlySales[month].orders += 1;
+          }
+        });
+
+        const salesArray = Object.keys(monthlySales).map((month) => ({
+          name: month,
+          ...monthlySales[month],
+        }));
+        setSalesData(salesArray);
+
+        // Prepare top products data
+        const productSales = {};
+        orders.forEach((order) => {
+          if (order.items) {
+            order.items.forEach((item) => {
+              if (!productSales[item.id]) {
+                productSales[item.id] = {
+                  name: item.name || `Product ${item.id}`,
+                  value: 0,
+                  fill: "#" + Math.floor(Math.random() * 16777215).toString(16),
+                };
+              }
+              productSales[item.id].value +=
+                (item.price || 0) * (item.quantity || 1);
+            });
+          }
+        });
+
+        const topProducts = Object.values(productSales)
+          .sort((a, b) => b.value - a.value)
+          .slice(0, 5);
+        setTopProductsData(topProducts);
+
+        // Prepare weekly performance data (real data from orders)
+        const weeklyStats = [
+          "Mon",
+          "Tue",
+          "Wed",
+          "Thu",
+          "Fri",
+          "Sat",
+          "Sun",
+        ].map((day) => ({
+          day,
+          sales: 0,
+          visitors: 0, // You'll need actual visitor data for this
+        }));
+
+        // Populate with real sales data if available
+        orders.forEach((order) => {
+          if (order.createdAt) {
+            const date = new Date(order.createdAt.seconds * 1000);
+            const dayIndex = date.getDay(); // 0=Sun, 1=Mon, etc.
+            const dayName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+              dayIndex
+            ];
+            const dayStat = weeklyStats.find((d) => d.day === dayName);
+            if (dayStat) {
+              dayStat.sales += 1;
+            }
+          }
+        });
+
+        setWeeklyPerformanceData(weeklyStats);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
     };
 
-    fetchMetrics();
+    fetchDashboardData();
   }, []);
-  const topProductsLimited = topProductsData
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 3);
+
+  const topProductsLimited = topProductsData.slice(0, 3);
 
   return (
     <div>
+      {/* Rest of your JSX remains exactly the same */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800 ">
-          Dashboard Overview
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
         <div className="flex items-center space-x-2">
           <FiCalendar className="text-gray-500" />
           <select
