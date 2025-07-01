@@ -1,22 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  FaRegHeart,
-  FaUser,
-  FaChevronDown,
-  FaUserEdit,
-  FaSignOutAlt,
-} from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+
 import { AiOutlineShoppingCart } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { SiHomeassistant } from "react-icons/si";
-import { MdOnDeviceTraining } from "react-icons/md";
+import {
+  FaChevronDown,
+  FaRegHeart,
+  FaSignOutAlt,
+  FaUser,
+  FaUserEdit,
+} from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
+import { MdOnDeviceTraining } from "react-icons/md";
+import { SiHomeassistant } from "react-icons/si";
+import { Link, useNavigate } from "react-router-dom";
+
 import CartSidebar from "../../components/shoppingCart/CartSidebar";
-import { useCart } from "../../context/CartContext";
 import WishlistSidebar from "../../components/shoppingCart/WishlistSidebar";
-import { useWishlist } from "../../context/WishlistContext";
 import { useAuth } from "../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
 import CategoryStrip from "./CategoryStrip";
 
 const Header = ({ onLoginClick }) => {
@@ -129,13 +130,13 @@ const Header = ({ onLoginClick }) => {
             {/* Wishlist Icon */}
             <div className="relative group">
               <FaRegHeart
-                className="cursor-pointer text-pink-500 hover:text-pink-600 transition-colors text-lg sm:text-xl"
+                className="cursor-pointer text-gray-500 hover:text-secondary/50 transition-colors text-lg sm:text-xl"
                 title="Wishlist"
                 onClick={() => setIsWishlistOpen(true)}
                 aria-label="Wishlist"
               />
               {wishlistCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-pink-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                   {wishlistCount}
                 </span>
               )}
@@ -264,7 +265,7 @@ const Header = ({ onLoginClick }) => {
                           ) {
                             dropdownTimeout.current = setTimeout(() => {
                               setAdminDropdownOpen(false);
-                            }, 500);
+                            }, 600);
                           }
                         }}
                       >
@@ -279,7 +280,7 @@ const Header = ({ onLoginClick }) => {
 
                         {adminDropdownOpen && (
                           <div
-                            className="admin-dropdown absolute right-0 top-full bg-white shadow-lg rounded-md mt-1 w-48 z-50 border border-gray-100"
+                            className="admin-dropdown absolute right-0 top-full bg-white shadow-lg rounded-md mt-1 w-48 z-100 border border-gray-100"
                             onMouseEnter={() => {
                               clearTimeout(dropdownTimeout.current);
                               setAdminDropdownOpen(true);

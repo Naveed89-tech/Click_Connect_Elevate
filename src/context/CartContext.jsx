@@ -1,14 +1,16 @@
 import React, {
   createContext,
   useContext,
-  useState,
   useEffect,
   useRef,
+  useState,
 } from "react";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
+
 import { db } from "../firebase";
 import { useAuth } from "./AuthContext";
-import toast from "react-hot-toast";
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -161,6 +163,7 @@ export const CartProvider = ({ children }) => {
       value={{
         cartItems,
         addToCart,
+        setCartItems,
         removeFromCart,
         increaseQty,
         decreaseQty,

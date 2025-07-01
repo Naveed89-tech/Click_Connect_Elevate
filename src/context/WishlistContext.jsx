@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+
 import toast from "react-hot-toast";
 
 const WishlistContext = createContext();
@@ -31,7 +32,12 @@ export const WishlistProvider = ({ children }) => {
 
   return (
     <WishlistContext.Provider
-      value={{ wishlistItems, addToWishlist, removeFromWishlist }}
+      value={{
+        wishlistItems,
+        setWishlistItems,
+        addToWishlist,
+        removeFromWishlist,
+      }}
     >
       {children}
     </WishlistContext.Provider>

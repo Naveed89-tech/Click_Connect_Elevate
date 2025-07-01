@@ -139,6 +139,19 @@ const SingleProductPage = () => {
 
   const handleAddToCart = async () => {
     if (!product) return;
+
+    // Check if product is in stock
+    if (product.stock <= 0) {
+      toast.error("This product is out of stock");
+      return;
+    }
+
+    // Validate requested quantity against available stock
+    if (quantity > product.stock) {
+      toast.error(`Only ${product.stock} items available in stock`);
+      return;
+    }
+
     setIsAddingToCart(true);
     try {
       const cartItem = {
@@ -153,10 +166,17 @@ const SingleProductPage = () => {
           product.images?.[0] ||
           "/fallback.jpg",
         quantity,
+        maxQuantity: product.stock, // Add max quantity to cart item
       };
 
       await addToCart(cartItem);
       toast.success(`${quantity} ${product.name} added to cart`);
+
+      // Optionally update local stock display (but don't modify Firestore here)
+      setProduct((prev) => ({
+        ...prev,
+        stock: prev.stock - quantity,
+      }));
     } catch (error) {
       toast.error("Failed to add to cart");
     } finally {

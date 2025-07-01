@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => {
       
       */}
       <div className="p-3 sm:p-4 flex flex-col sm:flex-grow justify-center">
-        <div className="category_tag px-[8px] py-[4px] bg-secondary/30 uppercase rounded-[10px] mb-3 font-semibold text-[#333] text-[12px] max-w-fit  ">
+        <div className="category_tag px-[6px] md:px-[8px] py-2[2px] md:py-[4px] bg-secondary/30 uppercase rounded-[10px] sm:mb-2 md:mb-3 font-semibold text-[#333] text-[10px] md:text-[12px] max-w-fit  ">
           {product.category}
         </div>
         {/* TITLE - fixed height */}
