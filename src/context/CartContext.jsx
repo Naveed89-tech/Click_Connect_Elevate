@@ -229,6 +229,7 @@ export const CartProvider = ({ children }) => {
         increaseQty,
         decreaseQty,
         clearCart,
+        setCartItems,
       }}
     >
       {children}
