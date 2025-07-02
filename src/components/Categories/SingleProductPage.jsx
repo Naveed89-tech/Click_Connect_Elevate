@@ -10,6 +10,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  runTransaction,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -140,13 +141,10 @@ const SingleProductPage = () => {
   const handleAddToCart = async () => {
     if (!product) return;
 
-    // Check if product is in stock
     if (product.stock <= 0) {
       toast.error("This product is out of stock");
       return;
     }
-
-    // Validate requested quantity against available stock
     if (quantity > product.stock) {
       toast.error(`Only ${product.stock} items available in stock`);
       return;
@@ -154,6 +152,21 @@ const SingleProductPage = () => {
 
     setIsAddingToCart(true);
     try {
+      // 🔒 atomically decrement stock
+      const productRef = doc(db, "products", product.id);
+      await runTransaction(db, async (tx) => {
+        const snap = await tx.get(productRef);
+        if (!snap.exists()) throw new Error("Product no longer exists");
+
+        const current = snap.data().stock ?? 0;
+        if (current < quantity) throw new Error("Not enough stock available");
+
+        tx.update(productRef, { stock: current - quantity });
+      });
+
+      // build cart item (was missing)
+      const THIRTY_MIN = 30 * 60 * 1000; // 30 minutes
+
       const cartItem = {
         id: product.id,
         name: product.name,
@@ -166,19 +179,16 @@ const SingleProductPage = () => {
           product.images?.[0] ||
           "/fallback.jpg",
         quantity,
-        maxQuantity: product.stock, // Add max quantity to cart item
+        reservedUntil: Date.now() + THIRTY_MIN,
       };
 
       await addToCart(cartItem);
       toast.success(`${quantity} ${product.name} added to cart`);
 
-      // Optionally update local stock display (but don't modify Firestore here)
-      setProduct((prev) => ({
-        ...prev,
-        stock: prev.stock - quantity,
-      }));
-    } catch (error) {
-      toast.error("Failed to add to cart");
+      // local UI update
+      setProduct((prev) => ({ ...prev, stock: prev.stock - quantity }));
+    } catch (err) {
+      toast.error(err.message || "Failed to add to cart");
     } finally {
       setIsAddingToCart(false);
     }
@@ -431,10 +441,10 @@ const SingleProductPage = () => {
               )}
             </div>
 
-            {product.stock > 0 && (
+            {product.stock > 0 ? (
               <>
-                <div className="flex items-center gap-4 py-2">
-                  <div className="w-32">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 py-2 w-full">
+                  <div className="w-full sm:w-40">
                     <label
                       htmlFor="quantity"
                       className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -451,20 +461,33 @@ const SingleProductPage = () => {
                       className="w-full rounded-md border border-gray-300 dark:border-gray-700 dark:bg-gray-800 py-2 px-3 text-base focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
-                  <div className="pt-6">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">
+                  <div className="w-full sm:w-auto pt-2 sm:pt-6">
+                    <span
+                      className={`text-sm ${
+                        product.stock < 10
+                          ? "text-orange-500 dark:text-orange-400"
+                          : "text-gray-500 dark:text-gray-400"
+                      }`}
+                    >
                       {product.stock} available
+                      {product.stock < 10 &&
+                        product.stock > 0 &&
+                        " (Low stock)"}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex gap-3 pt-2">
+                <div className="flex flex-col sm:flex-row gap-3 pt-2 w-full">
                   <Button
                     variant="secondary"
                     onClick={handleAddToCart}
-                    disabled={isAddingToCart}
-                    className={`flex-1 bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md flex items-center justify-center gap-2 transition-colors ${
+                    disabled={isAddingToCart || product.stock <= 0}
+                    className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md flex items-center justify-center gap-2 transition-colors ${
                       isAddingToCart ? "opacity-75 cursor-not-allowed" : ""
+                    } ${
+                      product.stock <= 0
+                        ? "bg-gray-400 hover:bg-gray-400 cursor-not-allowed"
+                        : ""
                     }`}
                   >
                     {isAddingToCart ? (
@@ -491,6 +514,8 @@ const SingleProductPage = () => {
                         </svg>
                         Adding...
                       </>
+                    ) : product.stock <= 0 ? (
+                      "Out of Stock"
                     ) : (
                       <>
                         <FaShoppingCart />
@@ -501,16 +526,16 @@ const SingleProductPage = () => {
                   <Button
                     variant="outline"
                     onClick={handleAddToWishlist}
-                    className="p-3 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    className="w-full sm:w-auto p-3 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
                     title="Add to wishlist"
                   >
                     <FaHeart className="text-red-500" />
                   </Button>
                 </div>
 
-                {/* Product Highlights */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-6">
-                  <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                {/* Product Highlights - Made full width */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-6 w-full">
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg w-full">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-full">
                       <FaTruck className="text-blue-600 dark:text-blue-400" />
                     </div>
@@ -524,7 +549,7 @@ const SingleProductPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg w-full">
                     <div className="p-2 bg-green-100 dark:bg-green-900 rounded-full">
                       <FaBoxOpen className="text-green-600 dark:text-green-400" />
                     </div>
@@ -538,7 +563,7 @@ const SingleProductPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg w-full">
                     <div className="p-2 bg-purple-100 dark:bg-purple-900 rounded-full">
                       <FaShieldAlt className="text-purple-600 dark:text-purple-400" />
                     </div>
@@ -553,6 +578,27 @@ const SingleProductPage = () => {
                   </div>
                 </div>
               </>
+            ) : (
+              <div className="w-full py-4">
+                <div className="w-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                  <p className="w-full text-red-600 dark:text-red-400 font-medium text-center">
+                    This product is currently out of stock
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 pt-4 w-full">
+                  <Button variant="outline" className="w-full" disabled={true}>
+                    Out of Stock
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={handleAddToWishlist}
+                    className="w-full sm:w-auto p-3 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
+                    title="Add to wishlist"
+                  >
+                    <FaHeart className="text-red-500" />
+                  </Button>
+                </div>
+              </div>
             )}
           </div>
         </div>

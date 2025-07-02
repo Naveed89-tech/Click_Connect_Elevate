@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
-import { useCheckout } from "../../context/CheckoutContext";
-import { useAuth } from "../../context/AuthContext";
-import { useCart } from "../../context/CartContext";
-import { db } from "../../firebase";
+
 import {
   addDoc,
   collection,
-  serverTimestamp,
   getDocs,
+  serverTimestamp,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
+import { useCheckout } from "../../context/CheckoutContext";
+import { db } from "../../firebase";
 
 const PaymentMethod = ({ onBack }) => {
   const {
@@ -91,7 +93,7 @@ const PaymentMethod = ({ onBack }) => {
 
     try {
       const docRef = await addDoc(collection(db, "orders"), orderData);
-      clearCart();
+      clearCart(false);
       navigate(`/order-confirmation/${docRef.id}`);
     } catch (error) {
       console.error("Order placement failed:", error);
