@@ -53,11 +53,11 @@ function FinalCallToActionSection() {
           </ul>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-between ">
-            <Link to="/products" className="flex-1 min-w-[200px]">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <Link to="/products" className="w-full sm:flex-1 sm:min-w-[200px]">
               <Button
                 variant="primary"
-                className="py-4 text-lg flex items-left justify-center gap-2  transition-all"
+                className="w-full sm:w-auto px-6 py-3 text-base sm:text-lg flex items-center justify-center gap-2 transition-all"
               >
                 Shop Now
               </Button>
