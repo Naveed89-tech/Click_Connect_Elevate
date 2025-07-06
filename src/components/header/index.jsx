@@ -4,6 +4,7 @@ import React, {
   useState,
 } from 'react';
 
+import toast from 'react-hot-toast';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import {
   FaChevronDown,
@@ -288,8 +289,9 @@ const Header = ({ onLoginClick }) => {
                         }}
                         onClick={() => {
                           if (window.innerWidth <= 600) {
-                            toast.info(
-                              "Please use a desktop device for admin features"
+                            toast(
+                              "Please use a desktop device  for admin features",
+                              { icon: "ℹ️" }
                             );
                           }
                         }}
