@@ -1,49 +1,52 @@
-import "./App.css";
+import './App.css';
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { AnimatePresence } from "framer-motion";
-import { Toaster } from "react-hot-toast";
-import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { AnimatePresence } from 'framer-motion';
+import { Toaster } from 'react-hot-toast';
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 
-import AnimatedPage from "../src/components/ui/AnimatePage";
-import AboutUsPage from "./components/AboutUs/AboutUsPage";
-import AddProduct from "./components/AdminDashBoard/AddProduct";
-import AdminLayout from "./components/AdminDashBoard/AdminLayout";
-import AdminReviews from "./components/AdminDashBoard/AdminReviews";
-import CustomersList from "./components/AdminDashBoard/CustomersList";
-import Dashboard from "./components/AdminDashBoard/Dashboard";
-import OrdersList from "./components/AdminDashBoard/OrdersList";
+import AnimatedPage from '../src/components/ui/AnimatePage';
+import AboutUsPage from './components/AboutUs/AboutUsPage';
+import AddProduct from './components/AdminDashBoard/AddProduct';
+import AdminLayout from './components/AdminDashBoard/AdminLayout';
+import AdminReviews from './components/AdminDashBoard/AdminReviews';
+import CustomersList from './components/AdminDashBoard/CustomersList';
+import Dashboard from './components/AdminDashBoard/Dashboard';
+import OrdersList from './components/AdminDashBoard/OrdersList';
 // admin dashboard
-import PrivateRoute from "./components/AdminDashBoard/PrivateRoute";
-import EditProductForm from "./components/AdminDashBoard/products/EditProductForm";
+import PrivateRoute from './components/AdminDashBoard/PrivateRoute';
+import EditProductForm
+  from './components/AdminDashBoard/products/EditProductForm';
 //order details
-import OrderDetails from "./components/AdminDashBoard/products/OrderDetails"; // adjust path as needed
-import ProductsList from "./components/AdminDashBoard/ProductsList";
-import Settings from "./components/AdminDashBoard/Settings";
-import AllCategory from "./components/Categories/AllCategory";
-import SingleProductPage from "./components/Categories/SingleProductPage";
-import ContactUs from "./components/contactUs/ContactUs";
-import Header from "./components/header";
-import BrowseByCategory from "./components/home/BrowseByCategory";
-import FinalCallToActionSection from "./components/home/FinalCallToAction";
-import Footer from "./components/home/Footer";
-import HeroSection from "./components/home/HeroSection";
+import OrderDetails
+  from './components/AdminDashBoard/products/OrderDetails'; // adjust path as needed
+import ProductsList from './components/AdminDashBoard/ProductsList';
+import Settings from './components/AdminDashBoard/Settings';
+import UserAddresses from './components/AdminDashBoard/UserAddresses';
+import UserProfileData from './components/AdminDashBoard/UserProfileData';
+import AllCategory from './components/Categories/AllCategory';
+import SingleProductPage from './components/Categories/SingleProductPage';
+import ContactUs from './components/contactUs/ContactUs';
+import Header from './components/header';
+import BrowseByCategory from './components/home/BrowseByCategory';
+import FinalCallToActionSection from './components/home/FinalCallToAction';
+import Footer from './components/home/Footer';
+import HeroSection from './components/home/HeroSection';
 //import CategorySection from "./components/category";
-import MainCategoriesSection from "./components/home/MainCategoriesSection";
-import ProductTabsSection from "./components/home/ProductTabsSection";
-import SplitTestimonialGallery from "./components/home/Testimonials";
-import CheckoutFlow from "./components/shoppingCart/CheckoutFlow";
-import MyOrders from "./components/shoppingCart/MyOrders";
-import OrderConfirmation from "./components/shoppingCart/OrderConfirmation";
-import UserProfile from "./components/userAdmin/UserProfile";
-import AuthModal from "./components/userAdmin/userSignUp";
-
-{
-  /* ChatGpt  
-import AdminLayout from "./pages/admin/AdminLayout";
-{/* ChatGpt  */
-}
+import MainCategoriesSection from './components/home/MainCategoriesSection';
+import ProductTabsSection from './components/home/ProductTabsSection';
+import SplitTestimonialGallery from './components/home/Testimonials';
+import CheckoutFlow from './components/shoppingCart/CheckoutFlow';
+import MyOrders from './components/shoppingCart/MyOrders';
+import OrderConfirmation from './components/shoppingCart/OrderConfirmation';
+import UserProfile from './components/userAdmin/UserProfile';
+import AuthModal from './components/userAdmin/userSignUp';
 
 const HomePage = () => (
   <AnimatedPage>
@@ -115,6 +118,14 @@ function App() {
             <Route path="products" element={<ProductsList />} />
             <Route path="products/add" element={<AddProduct />} />
             <Route path="products/edit/:id" element={<EditProductForm />} />
+            <Route
+              path="/admin/users/:userId/profileData"
+              element={<UserProfileData />}
+            />
+            <Route
+              path="/admin/users/:userId/addresses"
+              element={<UserAddresses />}
+            />
             <Route path="orders" element={<OrdersList />} />
             <Route path="reviews" element={<AdminReviews />} />
 

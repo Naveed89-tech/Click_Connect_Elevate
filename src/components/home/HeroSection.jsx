@@ -28,7 +28,7 @@ export default function HeroSection() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold text-white font-Roboto leading-20">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white font-Roboto leading-10 sm:leading-20">
             The future is <span className="text-secondary">connected</span>
           </h1>
 
@@ -76,12 +76,23 @@ export default function HeroSection() {
           <div className="absolute -right-10 sm:-right-16 md:-right-20 -top-10 sm:-top-16 md:-top-20 w-72 sm:w-80 md:w-96 h-72 sm:h-80 md:h-96 rounded-full bg-secondary/10 blur-3xl z-0" />
 
           {/* Main product image */}
-          <img
-            src="https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/hero%20one.png?raw=true"
-            alt="Connected future illustration"
-            className="relative z-10 w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
-            rel="preload"
-          />
+          <picture>
+            {/* Modern browsers first */}
+
+            <source
+              srcSet="https://raw.githubusercontent.com/Naveed89-tech/Click-Connect-Images/refs/heads/main/hero%20one_webp.webp"
+              type="image/webp"
+            />
+
+            {/* Fallback for older browsers */}
+            <img
+              src="https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/hero%20one.png?raw=true" /* fallback PNG/JPG */
+              alt="Connected future illustration"
+              fetchpriority="high"
+              loading="eager" /* never lazy-load LCP element */
+              className="relative z-10 w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
+            />
+          </picture>
 
           {/* Floating elements */}
           <div className="absolute bottom-1 right-2 md:top-auto md:right-auto md:-bottom-10 md:-left-10 bg-white/5 backdrop-blur-sm p-3 md:p-4 rounded-xl border border-white/10 shadow-lg z-20">

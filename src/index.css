@@ -101,6 +101,9 @@ FONT SIZE SYSTEM (px)
 html {
   scroll-behavior: smooth;
 }
+body {
+  font-family: Roboto, "sans-serif";
+}
 strong {
   font-weight: 600;
 }

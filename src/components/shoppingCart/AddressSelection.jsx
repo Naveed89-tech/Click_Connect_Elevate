@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { BsCheckCircleFill, BsCircle } from "react-icons/bs";
 import { FiEdit2, FiPlus, FiX } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
@@ -20,43 +20,48 @@ const AddressSelection = ({ onNext }) => {
 
   // Fetch addresses from Firestore
   useEffect(() => {
-    const fetchAddresses = async () => {
-      if (!user) return;
+    if (!user) return; // no user -> nothing to listen to
 
-      try {
-        const addressesRef = collection(db, "users", user.uid, "addresses");
-        const snapshot = await getDocs(addressesRef);
-        const userAddresses = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+    const addressesRef = collection(db, "users", user.uid, "addresses");
 
-        setAddresses(userAddresses);
+    // 🔴 start a real-time listener
+    const unsub = onSnapshot(addressesRef, (snap) => {
+      const all = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 
-        // Filter to get one address per type
-        const uniqueTypeAddresses = [];
-        const typesAdded = new Set();
+      setAddresses(all);
 
-        // Process addresses in reverse to get the most recent addresses first
-        [...userAddresses].reverse().forEach((address) => {
-          if (!typesAdded.has(address.type)) {
-            typesAdded.add(address.type);
-            uniqueTypeAddresses.push(address);
+      /* ----- keep only ONE address per type (newest wins) ----- */
+      const latestPerType = [];
+      const seen = new Set();
+
+      // sort newest → oldest using updatedAt (fallback to createdAt)
+      [...all]
+        .sort(
+          (a, b) =>
+            (b.updatedAt?.seconds || b.createdAt?.seconds || 0) -
+            (a.updatedAt?.seconds || a.createdAt?.seconds || 0)
+        )
+        .forEach((addr) => {
+          if (!seen.has(addr.type)) {
+            seen.add(addr.type);
+            latestPerType.push(addr);
           }
         });
 
-        setFilteredAddresses(uniqueTypeAddresses);
+      setFilteredAddresses(latestPerType);
 
-        if (uniqueTypeAddresses.length > 0) {
-          setSelectedAddress(uniqueTypeAddresses[0].id);
-        }
-      } catch (error) {
-        console.error("Error fetching addresses:", error);
+      // make sure something is selected
+      if (
+        latestPerType.length &&
+        !latestPerType.some((a) => a.id === selectedAddress)
+      ) {
+        setSelectedAddress(latestPerType[0].id);
       }
-    };
+    });
 
-    fetchAddresses();
-  }, [user, showAddressForm]);
+    // 🔵 clean up when component unmounts or user changes
+    return () => unsub();
+  }, [user]); // ⇠ no need for showAddressForm anymore
 
   const handleEditAddress = (addressId) => {
     setCurrentAddressId(addressId);

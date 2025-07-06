@@ -23,7 +23,7 @@ const ProductsList = () => {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+      <div className="flex flex-col font-Roboto md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">
           Product Management
         </h1>
@@ -33,21 +33,21 @@ const ProductsList = () => {
             <input
               type="text"
               placeholder="Search products..."
-              className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 pr-4 py-2 border  border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
           <select
-            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border  px-3 py-2    border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all"
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="all">All Categories</option>
-            <option value="smartHome">Smart Home</option>
-            <option value="industrial_IoT">Industrial IoTs</option>
+            <option value="smart-home">Smart Home</option>
+            <option value="industrial-iot">Industrial IoTs</option>
             <option value="wearables">Wearables</option>
-            <option value="smartCity">Smart City</option>
+            <option value="smart-city">Smart City</option>
             <option value="modules">Modules & Generic Devices</option>
             <option value="tracking">Smart Tracking</option>
           </select>

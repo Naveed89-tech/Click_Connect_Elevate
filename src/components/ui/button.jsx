@@ -1,4 +1,5 @@
 import React from "react";
+
 import { motion } from "framer-motion"; // Optional for advanced animations
 
 function Button({
@@ -12,7 +13,7 @@ function Button({
   // Base styles that apply to all buttons
   const baseClasses = `
     inline-flex items-center justify-center cursor-pointer    font-Rubik text-[1.27rem] leading-normal
-    rounded-[0.5rem] px-12 py-4
+    rounded-[0.5rem] px-4 py-2 sm:px-6 sm:py-4 md:px-12 md:py-4
     transition-all duration-100 ease-[cubic-bezier(0.4,0,0.2,1)]
     focus:outline-none     disabled:opacity-60 disabled:cursor-not-allowed
     motion-reduce:transition-none

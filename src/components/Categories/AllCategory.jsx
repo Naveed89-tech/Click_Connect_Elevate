@@ -118,13 +118,13 @@ function AllCategory() {
         <div className="flex gap-2">
           <input
             type="number"
-            className="border rounded px-2 py-1 w-full"
+            className="border  px-2 py-1 w-full     border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all"
             value={priceRange[0]}
             onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
           />
           <input
             type="number"
-            className="border rounded px-2 py-1 w-full"
+            className="border px-2 py-1 w-full  border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all"
             value={priceRange[1]}
             onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
           />
@@ -136,7 +136,7 @@ function AllCategory() {
         <div className="font-semibold mb-1">Company</div>
         <input
           type="text"
-          className="border px-2 py-1 w-full rounded"
+          className="border px-2 py-1 w-full  border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all"
           placeholder="Search"
           value={companySearch}
           onChange={(e) => setCompanySearch(e.target.value)}
@@ -164,7 +164,7 @@ function AllCategory() {
         <div className="font-semibold mb-1">Product Features</div>
         <input
           type="text"
-          className="border px-2 py-1 w-full rounded"
+          className="border px-2 py-1 w-full  border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all"
           placeholder="Search"
           value={featureSearch}
           onChange={(e) => setFeatureSearch(e.target.value)}
@@ -277,19 +277,38 @@ function AllCategory() {
 
           {/* Product grid */}
           <section className="lg:col-span-9">
-            <div className="flex justify-between mb-4 items-center">
+            <div className="flex justify-between text-gray-600 mb-4 items-center text-sm font-Rubik  md:text-[16px] ">
               <span>
                 Showing {filteredProducts.length} of {products.length} products
               </span>
-              <select
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="border px-3 py-1 rounded"
-              >
-                <option value="">Sort</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-              </select>
+              <div className="relative group">
+                <select
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value)}
+                  className="w-full pl-4 pr-10 py-2 border appearance-none     border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all "
+                >
+                  <option value="">Sort</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                </select>
+
+                {/* Custom Chevron Icon */}
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                  <svg
+                    className="w-5 h-5 text-gray-400 group-hover:text-gray-500 transition-colors duration-200"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             {paginatedProducts.length === 0 ? (

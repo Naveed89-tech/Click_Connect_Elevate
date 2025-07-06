@@ -1,18 +1,20 @@
-import { useState, useEffect } from "react";
-import { FiSearch, FiEye, FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+
 import {
   collection,
-  onSnapshot,
   doc,
   getDoc,
   getDocs,
-  updateDoc,
-  setDoc,
+  onSnapshot,
   serverTimestamp,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
-import { db } from "../../firebase";
 import toast from "react-hot-toast";
+import { FiChevronLeft, FiChevronRight, FiEye, FiSearch } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+
+import { db } from "../../firebase";
 
 const OrdersList = () => {
   const [orders, setOrders] = useState([]);
@@ -138,7 +140,7 @@ const OrdersList = () => {
   };
 
   return (
-    <div className="p-4 md:p-6">
+    <div className="p-4 md:p-6 font-Roboto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">
           Orders Management
@@ -149,25 +151,54 @@ const OrdersList = () => {
             <input
               type="text"
               placeholder="Search orders..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border  border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all   "
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <select
-            className="w-full md:w-48 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={statusFilter}
-            onChange={(e) => {
-              setStatusFilter(e.target.value);
-              setCurrentPage(1); // Reset to first page when filter changes
-            }}
-          >
-            <option value="all">All Statuses</option>
-            <option value="processing">Processing</option>
-            <option value="shipped">Shipped</option>
-            <option value="delivered">Delivered</option>
-            <option value="cancelled">Cancelled</option>
-          </select>
+          <div className="relative w-full md:w-48 group">
+            <select
+              className="w-full pl-4 pr-10 py-2 border appearance-none border-gray-300 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all "
+              value={statusFilter}
+              onChange={(e) => {
+                setStatusFilter(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              <option value="all" className="font-Rubik text-gray-400 italic">
+                All Statuses
+              </option>
+              <option value="processing" className="py-1 hover:bg-blue-50">
+                Processing
+              </option>
+              <option value="shipped" className="py-1 hover:bg-blue-50">
+                Shipped
+              </option>
+              <option value="delivered" className="py-1 hover:bg-blue-50">
+                Delivered
+              </option>
+              <option value="cancelled" className="py-1 hover:bg-blue-50">
+                Cancelled
+              </option>
+            </select>
+
+            {/* Custom Chevron Icon */}
+            <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg
+                className="w-5 h-5 text-gray-400 group-hover:text-gray-500 transition-colors duration-200"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
 

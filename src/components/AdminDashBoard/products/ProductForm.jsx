@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FiX, FiPlus, FiTrash2 } from "react-icons/fi";
-import PropTypes from "prop-types";
-import CategorySelector from "./CategorySelector";
+
 import { serverTimestamp } from "firebase/firestore";
+import PropTypes from "prop-types";
+import { FiPlus, FiTrash2, FiX } from "react-icons/fi";
+
+import CategorySelector from "./CategorySelector";
 
 const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
   const [formData, setFormData] = useState({
@@ -137,11 +139,13 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full p-3 border-2 border-gray-200 rounded-lg focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200 transition-all"
                 required
               />
             </div>
+            {/*  start  */}
 
+            {/*  start  */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Introduction
@@ -151,7 +155,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                 value={formData.introduction}
                 onChange={handleChange}
                 rows={5}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400   border-gray-200  focus:border-blue-500   transition-all"
               />
             </div>
             <div className="mb-6">
@@ -163,7 +167,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                 value={formData.description}
                 onChange={handleChange}
                 rows={5}
-                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 border-gray-200  focus:border-blue-500 transition-all"
               />
             </div>
 
@@ -198,7 +202,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                 <button
                   type="button"
                   onClick={addFeature}
-                  className="mt-2 flex items-center text-blue-600 hover:text-blue-800 text-sm"
+                  className="mt-2 flex items-center text-secondary hover:text-blue-800 text-sm"
                 >
                   <FiPlus className="mr-1" /> Add Feature
                 </button>
@@ -215,7 +219,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                   value={newImageUrl}
                   onChange={(e) => setNewImageUrl(e.target.value)}
                   placeholder="Paste image URL (e.g., https://example.com/image.jpg)"
-                  className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400 w-full  border-gray-200  focus:border-blue-500  transition-all"
                   onKeyDown={(e) =>
                     e.key === "Enter" && (e.preventDefault(), addImageUrl())
                   }
@@ -223,7 +227,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                 <button
                   type="button"
                   onClick={addImageUrl}
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center"
+                  className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/60 cursor-pointer flex items-center"
                 >
                   <FiPlus className="mr-1" /> Add
                 </button>
@@ -267,17 +271,45 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Status *
                 </label>
-                <select
-                  name="status"
-                  value={formData.status}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                >
-                  <option value="draft">Draft</option>
-                  <option value="published">Published</option>
-                  <option value="out_of_stock">Out of Stock</option>
-                </select>
+                <div className="relative w-full group">
+                  <select
+                    name="status"
+                    value={formData.status}
+                    onChange={handleChange}
+                    className="w-full px-4 font-Rubik py-3 pr-12 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 border-gray-200 hover:border-blue-300 transition-all duration-200 cursor-pointer appearance-none bg-white shadow-sm text-gray-700 font-medium"
+                    required
+                  >
+                    <option value="draft" className="text-gray-500 italic">
+                      Draft
+                    </option>
+                    <option value="published" className="text-gray-500 italic">
+                      Published
+                    </option>
+                    <option
+                      value="out_of_stock"
+                      className="text-gray-500 italic"
+                    >
+                      Out of Stock
+                    </option>
+                  </select>
+
+                  {/* Premium Chevron Indicator */}
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none transition-transform duration-200 group-hover:translate-y-0.5">
+                    <svg
+                      className="w-6 h-6 text-gray-400 group-focus:text-blue-500 transition-colors duration-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
               <div className="mb-4">
@@ -300,7 +332,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none  focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all"
                 />
               </div>
               <div className="mb-4">
@@ -337,7 +369,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                   name="sku"
                   value={formData.sku}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all"
                 />
               </div>
 
@@ -353,7 +385,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                     onChange={handleChange}
                     min="0"
                     step="0.01"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none   focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all"
                     required
                   />
                 </div>
@@ -368,7 +400,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                     onChange={handleChange}
                     min="0"
                     step="0.01"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none   border-gray-200  focus:border-blue-500  transition-all   focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all"
                   />
                 </div>
               </div>
@@ -385,7 +417,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                     onChange={handleChange}
                     min="0"
                     step="0.01"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none  focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all  "
                   />
                 </div>
                 <div>
@@ -398,7 +430,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                     value={formData.stock}
                     onChange={handleChange}
                     min="0"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none    focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all"
                   />
                 </div>
               </div>
@@ -414,7 +446,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                   onChange={handleChange}
                   min="0"
                   step="0.01"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none   focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all"
                 />
               </div>
             </div>
@@ -422,7 +454,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
         </div>
 
         {/* Variants Section */}
-        <div className="mt-8 border-t pt-6">
+        <div className="mt-8 border-t border-gray-300 pt-6">
           <h3 className="font-medium text-gray-700 mb-4">Product Variants</h3>
 
           <div className="bg-gray-50 p-4 rounded-lg mb-4">
@@ -437,7 +469,7 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                   value={variant.name}
                   onChange={handleVariantChange}
                   placeholder="e.g. Color, Size"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none  focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all"
                 />
               </div>
               <div className="md:col-span-2">
@@ -458,14 +490,14 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
                     }))
                   }
                   placeholder="e.g. Red, Blue, Green"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none  focus:ring-1 focus:ring-blue-400  border-gray-200  focus:border-blue-500  transition-all  "
                 />
               </div>
             </div>
             <button
               type="button"
               onClick={addVariantOption}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700"
+              className="bg-primary text-white px-4 py-2 rounded-lg flex items-center hover:bg-primary/60 cursor-pointer"
               disabled={!variant.name || variant.options.length === 0}
             >
               <FiPlus className="mr-2" />
@@ -526,14 +558,14 @@ const ProductForm = ({ onSubmit, onCancel, initialData = null }) => {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+            className="px-4 py-2 border cursor-pointer border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
           >
             Cancel
           </button>
           <button
             type="submit"
             disabled={uploading}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-400"
+            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/60 disabled:bg-primary/8 cursor-pointer"
           >
             {uploading ? "Saving..." : "Save Product"}
           </button>

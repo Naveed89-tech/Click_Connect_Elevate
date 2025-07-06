@@ -18,6 +18,7 @@ import WishlistSidebar from "../../components/shoppingCart/WishlistSidebar";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { useWishlist } from "../../context/WishlistContext";
+import ProfileModal from "../userAdmin/ProfileModal";
 import CategoryStrip from "./CategoryStrip";
 
 const Header = ({ onLoginClick }) => {
@@ -40,7 +41,7 @@ const Header = ({ onLoginClick }) => {
   const mobileMenuRef = useRef(null);
 
   const isAdmin = user?.email === "naveed5651@gmail.com";
-
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const handleLogout = async () => {
     await logout();
     navigate("/");
@@ -224,14 +225,17 @@ const Header = ({ onLoginClick }) => {
                           <MdOnDeviceTraining className="text-blue-500" />
                           <span>My Orders</span>
                         </Link>
-                        <Link
-                          to="/profile?redirectTo=profile"
-                          onClick={() => setUserDropdownOpen(false)}
-                          className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100 transition-colors"
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUserDropdownOpen(false);
+                            setShowProfileModal(true);
+                          }}
+                          className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100 transition-colors"
                         >
                           <FaUserEdit className="text-green-500" />
                           <span>Edit Profile</span>
-                        </Link>
+                        </button>
                         <button
                           onClick={() => {
                             setUserDropdownOpen(false);
@@ -375,7 +379,10 @@ const Header = ({ onLoginClick }) => {
 
         <CategoryStrip />
       </header>
-
+      <ProfileModal
+        isOpen={showProfileModal}
+        onClose={() => setShowProfileModal(false)}
+      />
       <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       <WishlistSidebar
         isOpen={isWishlistOpen}
