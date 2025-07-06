@@ -265,34 +265,22 @@ const Header = ({ onLoginClick }) => {
                         className="relative"
                         ref={adminDropdownRef}
                         onMouseEnter={() => {
-                          if (window.innerWidth > 600) {
-                            clearTimeout(dropdownTimeout.current);
-                            setAdminDropdownOpen(true);
-                            setUserDropdownOpen(true);
-                          }
+                          clearTimeout(dropdownTimeout.current);
+                          setAdminDropdownOpen(true);
+                          setUserDropdownOpen(true);
                         }}
                         onMouseLeave={(e) => {
-                          if (window.innerWidth > 600) {
-                            const dropdown =
-                              adminDropdownRef.current?.querySelector(
-                                ".admin-dropdown"
-                              );
-                            if (
-                              !dropdown ||
-                              !dropdown.contains(e.relatedTarget)
-                            ) {
-                              dropdownTimeout.current = setTimeout(() => {
-                                setAdminDropdownOpen(false);
-                              }, 600);
-                            }
-                          }
-                        }}
-                        onClick={() => {
-                          if (window.innerWidth <= 600) {
-                            toast(
-                              "Please use a desktop device  for admin features",
-                              { icon: "ℹ️" }
+                          const dropdown =
+                            adminDropdownRef.current?.querySelector(
+                              ".admin-dropdown"
                             );
+                          if (
+                            !dropdown ||
+                            !dropdown.contains(e.relatedTarget)
+                          ) {
+                            dropdownTimeout.current = setTimeout(() => {
+                              setAdminDropdownOpen(false);
+                            }, 600);
                           }
                         }}
                       >
@@ -305,7 +293,7 @@ const Header = ({ onLoginClick }) => {
                           />
                         </div>
 
-                        {adminDropdownOpen && window.innerWidth > 600 && (
+                        {adminDropdownOpen && (
                           <div
                             className="admin-dropdown absolute right-0 top-full bg-white shadow-lg rounded-md mt-1 w-48 z-100 border border-gray-100"
                             onMouseEnter={() => {
@@ -320,7 +308,16 @@ const Header = ({ onLoginClick }) => {
                             }}
                           >
                             <button
-                              onClick={() => navigate("/admin")}
+                              onClick={() => {
+                                if (window.innerWidth < 600) {
+                                  toast(
+                                    "Please use a desktop device for admin features",
+                                    { icon: "ℹ️" }
+                                  );
+                                } else {
+                                  navigate("/admin");
+                                }
+                              }}
                               className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 border-b border-gray-100 transition-colors"
                             >
                               <SiHomeassistant className="text-purple-500" />

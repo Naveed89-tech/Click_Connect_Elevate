@@ -1,15 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import { motion, useAnimation } from "framer-motion";
+import {
+  motion,
+  useAnimation,
+} from 'framer-motion';
 import {
   FaCity,
   FaGamepad,
   FaIndustry,
   FaMapMarkerAlt,
   FaMobileAlt,
-} from "react-icons/fa";
-import { FiCpu } from "react-icons/fi";
-import { Link } from "react-router-dom";
+} from 'react-icons/fa';
+import { FiCpu } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const categories = [
   { name: "Smart Home", icon: <FaMobileAlt />, path: "/smart-home" },
@@ -114,19 +121,19 @@ function BrowseByCategory() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="w-[160px] h-32 flex-shrink-0"
+                className="w-[120px] md:w-[160px] h-28 md:h-32 flex-shrink-0"
               >
                 <Link
                   to={cat.path}
                   className="h-full flex flex-col gap-3 sm:gap-4 items-center justify-center text-center p-4 sm:p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-all border border-gray-100 hover:border-primary/20"
                 >
-                  <div className="w-16 aspect-square rounded-full bg-gradient-to-br from-secondary/10 to-primary/10 text-primary flex items-center justify-center transition-all">
+                  <div className="w-14 md:w-16 aspect-square rounded-full bg-gradient-to-br from-secondary/10 to-primary/10 text-primary flex items-center justify-center transition-all">
                     {React.cloneElement(cat.icon, {
-                      size: 24,
+                      size: window.innerWidth < 640 ? 20 : 24,
                       className: "transition-transform group-hover:scale-110",
                     })}
                   </div>
-                  <span className="text-sm font-medium text-gray-800">
+                  <span className="text-[10px] sm:text-[12px] md:text-sm font-medium text-gray-800">
                     {cat.name}
                   </span>
                 </Link>
