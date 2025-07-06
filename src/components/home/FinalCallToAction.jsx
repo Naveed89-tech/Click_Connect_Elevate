@@ -1,7 +1,10 @@
-import { Check, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  Check,
+  Zap,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-import Button from "../../components/ui/button";
+import Button from '../../components/ui/button';
 
 function FinalCallToActionSection() {
   return (
@@ -16,26 +19,26 @@ function FinalCallToActionSection() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#fff6e7] rounded-full">
             <Zap className="w-5 h-5 text-secondary" fill="currentColor" />
-            <span className="text-sm font-medium text-secondary uppercase tracking-wider">
+            <span className="text-[12px] xs:text-sm font-medium text-secondary uppercase tracking-wider">
               Limited Time Offer
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+          <h1 className="text-2xl xs:text-3xl   sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
             Get Your First{" "}
             <span className="text-secondary font-Montserrat">Smart Device</span>{" "}
             With Free Installation
           </h1>
 
           {/* Description */}
-          <p className="text-lg text-gray-600 max-w-lg">
+          <p className="text-sm xs:text-lg text-gray-600 max-w-lg">
             Experience seamless automation with our premium IoT devices.
             Professional setup included at no extra cost.
           </p>
 
           {/* Benefits List */}
-          <ul className="space-y-3">
+          <ul className="space-y-3 text-sm xs:text-lg">
             {[
               "No-hassle professional installation",
               "30-day money-back guarantee",
@@ -50,11 +53,11 @@ function FinalCallToActionSection() {
           </ul>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-between items-center">
+          <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-between ">
             <Link to="/products" className="flex-1 min-w-[200px]">
               <Button
                 variant="primary"
-                className="py-4  text-lg flex items-center justify-center gap-2  transition-all"
+                className="py-4 text-lg flex items-left justify-center gap-2  transition-all"
               >
                 Shop Now
               </Button>
@@ -75,7 +78,9 @@ function FinalCallToActionSection() {
                 </svg>
               ))}
             </div>
-            <span>Rated 4.9/5 by 2,400+ customers</span>
+            <span className="text-[12px]  sm:text-base">
+              Rated 4.9/5 by 2,400+ customers
+            </span>
           </div>
         </div>
 

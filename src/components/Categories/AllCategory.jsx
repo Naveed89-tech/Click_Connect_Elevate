@@ -1,5 +1,5 @@
 // ✅ SmartHomePage still re-uses Catalog filter logic
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 import {
   ChevronLeft,
@@ -7,13 +7,16 @@ import {
   Filter as FilterIcon,
   Grid as ViewAllIcon,
   X as Close,
-} from "lucide-react";
-import { Helmet } from "react-helmet";
-import { Link, useLocation } from "react-router-dom";
+} from 'lucide-react';
+import { Helmet } from 'react-helmet';
+import {
+  Link,
+  useLocation,
+} from 'react-router-dom';
 
-import Button from "../../components/ui/button";
-import ProductCard from "../../components/ui/ProductCard";
-import useFirestoreProducts from "../../hooks/useFirestoreProducts";
+import Button from '../../components/ui/button';
+import ProductCard from '../../components/ui/ProductCard';
+import useFirestoreProducts from '../../hooks/useFirestoreProducts';
 
 function AllCategory() {
   /* ──────────── State & hooks ──────────── */
@@ -277,7 +280,7 @@ function AllCategory() {
 
           {/* Product grid */}
           <section className="lg:col-span-9">
-            <div className="flex justify-between text-gray-600 mb-4 items-center text-sm font-Rubik  md:text-[16px] ">
+            <div className="flex justify-between text-gray-600 mb-4 items-center text-[12px] xs:text-sm font-Rubik  md:text-[16px] ">
               <span>
                 Showing {filteredProducts.length} of {products.length} products
               </span>

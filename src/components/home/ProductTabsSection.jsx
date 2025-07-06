@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import useFirestoreProducts from "../../hooks/useFirestoreProducts";
-import ProductCard from "../ui/ProductCard";
+import useFirestoreProducts from '../../hooks/useFirestoreProducts';
+import ProductCard from '../ui/ProductCard';
 
 const TABS = [
   { label: "New Arrival", value: "new arrival" },
@@ -36,7 +36,7 @@ function ProductTabsSection() {
           <button
             key={tab.value}
             onClick={() => setActiveTab(tab.value)}
-            className={`text-lg font-medium hover:cursor-pointer font-Montserrat pb-2 border-b-2 transition whitespace-nowrap ${
+            className={`text-[12px] xs:text-sm   sm:text-base   md:text-lg font-medium hover:cursor-pointer font-Montserrat pb-2 border-b-2 transition whitespace-nowrap ${
               activeTab === tab.value
                 ? "border-secondary text-primary"
                 : "border-transparent text-gray-500 hover:text-black"

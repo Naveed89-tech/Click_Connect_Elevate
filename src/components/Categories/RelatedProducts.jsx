@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from 'react';
 
-import useFirestoreProducts from "../../hooks/useFirestoreProducts";
+import useFirestoreProducts from '../../hooks/useFirestoreProducts';
 // ✅ ProductCard import
-import ProductCard from "../ui/ProductCard";
+import ProductCard from '../ui/ProductCard';
 
 const RelatedProducts = ({ currentProduct }) => {
   const allProducts = useFirestoreProducts();
@@ -29,7 +32,7 @@ const RelatedProducts = ({ currentProduct }) => {
 
   return (
     <div className="mt-4">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {related.map((item) => (
           <ProductCard key={item.id} product={item} />
         ))}

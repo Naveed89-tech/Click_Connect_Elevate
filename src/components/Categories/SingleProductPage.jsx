@@ -1,8 +1,11 @@
-import "react-medium-image-zoom/dist/styles.css";
+import 'react-medium-image-zoom/dist/styles.css';
 
-import React, { useEffect, useState } from "react";
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 
-import { format } from "date-fns";
+import { format } from 'date-fns';
 import {
   collection,
   doc,
@@ -13,9 +16,9 @@ import {
   runTransaction,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { motion } from "framer-motion";
-import toast from "react-hot-toast";
+} from 'firebase/firestore';
+import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 import {
   FaBoxOpen,
   FaHeart,
@@ -25,16 +28,19 @@ import {
   FaStar,
   FaStarHalfAlt,
   FaTruck,
-} from "react-icons/fa";
-import { IoMdArrowRoundBack } from "react-icons/io";
-import Zoom from "react-medium-image-zoom";
-import { Link, useParams } from "react-router-dom";
+} from 'react-icons/fa';
+import { IoMdArrowRoundBack } from 'react-icons/io';
+import Zoom from 'react-medium-image-zoom';
+import {
+  Link,
+  useParams,
+} from 'react-router-dom';
 
-import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishlistContext";
-import { db } from "../../firebase";
-import Button from "../ui/button";
-import RelatedProducts from "./RelatedProducts";
+import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
+import { db } from '../../firebase';
+import Button from '../ui/button';
+import RelatedProducts from './RelatedProducts';
 
 const SingleProductPage = () => {
   const { id } = useParams();
@@ -402,7 +408,7 @@ const SingleProductPage = () => {
         {/* Product Details Section */}
         <div className="space-y-6">
           <div className="border-b pb-4 border-gray-200 dark:border-gray-700">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
               {product.name}
             </h1>
 
@@ -413,7 +419,7 @@ const SingleProductPage = () => {
               <span className="text-sm text-gray-600 dark:text-gray-400">
                 {product.reviewCount || 0} reviews
               </span>
-              <span className="text-sm font-medium px-2 py-1 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+              <span className="text-[12px] xs:text-sm font-medium px-2.5 xs:px-2 py-1 rounded-full bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                 {product.stock > 0 ? "In Stock" : "Out of Stock"}
               </span>
               {product.sku && (
@@ -425,13 +431,13 @@ const SingleProductPage = () => {
           </div>
 
           <div className="space-y-4">
-            <p className="text-gray-700 dark:text-gray-300">
+            <p className="text-sm   xs:text-base  sm:text-lg md:text-xl text-gray-700 dark:text-gray-300">
               {product.shortDescription ||
                 product.introduction?.substring(0, 200) + "..."}
             </p>
 
-            <div className="flex items-baseline gap-3">
-              <p className="text-3xl font-bold text-gray-900 dark:text-white">
+            <div className="flex items-baseline gap-3 font-Rubik">
+              <p className="text-lg md:text-xl font-bold text-gray-900 dark:text-white">
                 ${actualPrice.toFixed(2)}
               </p>
               {product.salePrice && product.price && (
@@ -482,7 +488,7 @@ const SingleProductPage = () => {
                     variant="secondary"
                     onClick={handleAddToCart}
                     disabled={isAddingToCart || product.stock <= 0}
-                    className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-md flex items-center justify-center gap-2 transition-colors ${
+                    className={`w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 xs:py-3 px-4 xs:px-6 rounded-md flex items-center justify-center gap-2 transition-colors ${
                       isAddingToCart ? "opacity-75 cursor-not-allowed" : ""
                     } ${
                       product.stock <= 0
@@ -526,7 +532,7 @@ const SingleProductPage = () => {
                   <Button
                     variant="outline"
                     onClick={handleAddToWishlist}
-                    className="w-full sm:w-auto p-3 border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
+                    className="w-full sm:w-auto py-2 xs:py-3 px-4 xs:px-6  border border-gray-300 dark:border-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-center"
                     title="Add to wishlist"
                   >
                     <FaHeart className="text-red-500" />
@@ -543,7 +549,7 @@ const SingleProductPage = () => {
                       <p className="text-xs text-gray-500 dark:text-gray-400">
                         Free Delivery
                       </p>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-[12px] xs:text-sm font-medium text-gray-900 dark:text-white">
                         1-2 days
                       </p>
                     </div>
@@ -557,7 +563,7 @@ const SingleProductPage = () => {
                       <p className="text-xs text-gray-500 dark:text-gray-400">
                         Easy Returns
                       </p>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-[12px] xs:text-sm  font-medium text-gray-900 dark:text-white">
                         30 Days Policy
                       </p>
                     </div>
@@ -571,7 +577,7 @@ const SingleProductPage = () => {
                       <p className="text-xs text-gray-500 dark:text-gray-400">
                         Warranty
                       </p>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      <p className="text-[12px] xs:text-sm  font-medium text-gray-900 dark:text-white">
                         1 Year
                       </p>
                     </div>
@@ -638,7 +644,7 @@ const SingleProductPage = () => {
             >
               {product.description ? (
                 <div
-                  className="text-gray-700 dark:text-gray-300"
+                  className="text-sm   xs:text-base  sm:text-lg md:text-xl  text-gray-700 dark:text-gray-300"
                   dangerouslySetInnerHTML={{ __html: product.description }}
                 />
               ) : (

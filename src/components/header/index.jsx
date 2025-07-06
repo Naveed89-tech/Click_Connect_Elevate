@@ -1,25 +1,35 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 import {
   FaChevronDown,
   FaRegHeart,
   FaSignOutAlt,
   FaUser,
   FaUserEdit,
-} from "react-icons/fa";
-import { FiMenu, FiX } from "react-icons/fi";
-import { MdOnDeviceTraining } from "react-icons/md";
-import { SiHomeassistant } from "react-icons/si";
-import { Link, useNavigate } from "react-router-dom";
+} from 'react-icons/fa';
+import {
+  FiMenu,
+  FiX,
+} from 'react-icons/fi';
+import { MdOnDeviceTraining } from 'react-icons/md';
+import { SiHomeassistant } from 'react-icons/si';
+import {
+  Link,
+  useNavigate,
+} from 'react-router-dom';
 
-import CartSidebar from "../../components/shoppingCart/CartSidebar";
-import WishlistSidebar from "../../components/shoppingCart/WishlistSidebar";
-import { useAuth } from "../../context/AuthContext";
-import { useCart } from "../../context/CartContext";
-import { useWishlist } from "../../context/WishlistContext";
-import ProfileModal from "../userAdmin/ProfileModal";
-import CategoryStrip from "./CategoryStrip";
+import CartSidebar from '../../components/shoppingCart/CartSidebar';
+import WishlistSidebar from '../../components/shoppingCart/WishlistSidebar';
+import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
+import ProfileModal from '../userAdmin/ProfileModal';
+import CategoryStrip from './CategoryStrip';
 
 const Header = ({ onLoginClick }) => {
   const { cartItems } = useCart();
@@ -254,22 +264,33 @@ const Header = ({ onLoginClick }) => {
                         className="relative"
                         ref={adminDropdownRef}
                         onMouseEnter={() => {
-                          clearTimeout(dropdownTimeout.current);
-                          setAdminDropdownOpen(true);
-                          setUserDropdownOpen(true);
+                          if (window.innerWidth > 600) {
+                            clearTimeout(dropdownTimeout.current);
+                            setAdminDropdownOpen(true);
+                            setUserDropdownOpen(true);
+                          }
                         }}
                         onMouseLeave={(e) => {
-                          const dropdown =
-                            adminDropdownRef.current?.querySelector(
-                              ".admin-dropdown"
+                          if (window.innerWidth > 600) {
+                            const dropdown =
+                              adminDropdownRef.current?.querySelector(
+                                ".admin-dropdown"
+                              );
+                            if (
+                              !dropdown ||
+                              !dropdown.contains(e.relatedTarget)
+                            ) {
+                              dropdownTimeout.current = setTimeout(() => {
+                                setAdminDropdownOpen(false);
+                              }, 600);
+                            }
+                          }
+                        }}
+                        onClick={() => {
+                          if (window.innerWidth <= 600) {
+                            toast.info(
+                              "Please use a desktop device for admin features"
                             );
-                          if (
-                            !dropdown ||
-                            !dropdown.contains(e.relatedTarget)
-                          ) {
-                            dropdownTimeout.current = setTimeout(() => {
-                              setAdminDropdownOpen(false);
-                            }, 600);
                           }
                         }}
                       >
@@ -282,7 +303,7 @@ const Header = ({ onLoginClick }) => {
                           />
                         </div>
 
-                        {adminDropdownOpen && (
+                        {adminDropdownOpen && window.innerWidth > 600 && (
                           <div
                             className="admin-dropdown absolute right-0 top-full bg-white shadow-lg rounded-md mt-1 w-48 z-100 border border-gray-100"
                             onMouseEnter={() => {

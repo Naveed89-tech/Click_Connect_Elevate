@@ -1,10 +1,13 @@
-import React from "react";
+import React from 'react';
 
-import { ArrowRight, Zap } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  ArrowRight,
+  Zap,
+} from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-import Button from "../ui/button";
-import CustomerHighlight from "./customerHighligh";
+import Button from '../ui/button';
+import CustomerHighlight from './customerHighligh';
 
 export default function HeroSection() {
   return (
@@ -22,7 +25,7 @@ export default function HeroSection() {
               className="w-4 h-4 sm:w-5 sm:h-5 text-secondary"
               fill="currentColor"
             />
-            <span className="text-[14px] xs:text-[16px] sm:text-[18px] md:text-[20px] leading-none pb-0 text-secondary font-medium uppercase tracking-wider font-Montserrat">
+            <span className="text-[12px] xs:text-[14px] sm:text-[18px] md:text-[20px] leading-none pb-0 text-secondary font-medium uppercase tracking-wider font-Montserrat">
               Control more, worry less
             </span>
           </div>
@@ -33,7 +36,7 @@ export default function HeroSection() {
           </h1>
 
           {/* Description */}
-          <p className="text-lg md:text-xl max-w-2xl leading-relaxed text-white opacity-50 text-[20px]">
+          <p className="text-sm   xs:text-base  sm:text-lg md:text-xl max-w-2xl leading-relaxed text-white opacity-50 text-[20px]">
             Discover how our smart solutions help you streamline your life,
             manage your home, and stay connected effortlessly. From smart homes
             to AI-powered gadgets, we bring tomorrow's tech to your doorstep
@@ -57,7 +60,7 @@ export default function HeroSection() {
             >
               <Button
                 variant="outline"
-                className="w-full sm:w-auto px-8 py-4 font-medium border-white text-white hover:bg-white/10"
+                className="w-full sm:w-auto px-8  font-medium border-white text-white hover:bg-white/10"
               >
                 Live Demo
               </Button>
@@ -88,7 +91,7 @@ export default function HeroSection() {
             <img
               src="https://github.com/Naveed89-tech/Click-Connect-Images/blob/main/hero%20one.png?raw=true" /* fallback PNG/JPG */
               alt="Connected future illustration"
-              fetchpriority="high"
+              fetchPriority="high"
               loading="eager" /* never lazy-load LCP element */
               className="relative z-10 w-full h-auto object-contain transition-transform duration-700 hover:scale-105"
             />
