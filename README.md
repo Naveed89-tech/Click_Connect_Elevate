@@ -1,12 +1,88 @@
-# React + Vite
+# 🛒 IoT E-Commerce Platform – Final Year Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **Virtual University | CS519 – Associate Degree Program (ADP)**  
+> Specialization: Web Design and Development  
+> **Student Name:** Muhammad Naveed  
+> **Student ID:** BC230420532  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📘 Project Overview
 
-## Expanding the ESLint configuration
+This IoT E-Commerce Platform is a modern web application built for selling and managing Internet of Things (IoT) devices. It provides an intuitive and responsive interface for both customers and administrators to interact with a large catalog of smart devices.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🎯 Scope of Project
+
+The main objectives and features of the platform include:
+
+- **Browse IoT Devices**  
+  Detailed product listings with descriptions, images, specifications, and user ratings.
+
+- **Secure Checkout & Payment Integration**  
+  Users can purchase devices using a secure and efficient checkout system.
+
+- **Order & Delivery Management**  
+  Track order status, shipping details, and manage delivery preferences.
+
+- **User Accounts**  
+  Registration, login, order history, and profile management for a personalized experience.
+
+- **Admin Dashboard (Future Scope)**  
+  Manage products, orders, users, and reviews from a centralized backend (planned in next phase).
+
+---
+
+## 🎨 User Interface Highlights
+
+- Fully responsive UI for desktop, tablet, and mobile.
+- Dynamic filtering, product detail views, and cart system.
+- Clean, modern design using **Tailwind CSS 4** and **Figma prototypes**.
+
+---
+
+## 🧩 Tools & Technologies
+
+| Category              | Tools / Technologies                          |
+|-----------------------|-----------------------------------------------|
+| Front-End Framework   | React 19.1.0                                   |
+| Styling               | Tailwind CSS 4                                 |
+| Build Tool            | Vite                                           |
+| Backend Services      | Firebase (Firestore, Authentication)          |
+| Code Editor           | Visual Studio Code                            |
+| Diagramming Tools     | Microsoft Visio, Figma                        |
+| Image Assets          | Unsplash, Freepik, Amazon Product Images       |
+| Optimization          | TinyPNG, Chrome Dev Tools                     |
+| Learning Sources      | Meta Front-End Developer (Coursera), YouTube  |
+| AI Assistance         | ChatGPT (GPT-4o), OpenAI                      |
+
+---
+
+## 📸 Screenshots
+
+| Home Page | Order Process | Admin Panel |
+|-----------|------------------|----------------|
+| ![Home](./screenshots/home.png) | ![Catalog](./screenshots/order.png) | ![Detail](./screenshots/admin.png) |
+
+---
+
+## ✅ Project Status
+
+- ✅ Core UI implemented  
+- ✅ Firebase authentication integrated  
+- ✅ Firestore data storage  
+- ✅ Product cards, cart, and checkout workflows  
+- ✅ Admin dashboard 
+
+---
+
+## 👨‍💻 Developed By
+
+**Muhammad Naveed**  
+Frontend Developer & Student  
+Student ID: **BC230420532**  
+Virtual University of Pakistan
+
+---
+
