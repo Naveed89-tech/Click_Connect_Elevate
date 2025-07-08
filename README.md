@@ -3,7 +3,7 @@
 > **Virtual University | CS519 – Associate Degree Program (ADP)**  
 > Specialization: Web Design and Development  
 > **Student Name:** Muhammad Naveed  
-> **Student ID:** BC230420532  
+> **Student ID:** BC230420532
 
 ---
 
@@ -20,8 +20,8 @@ The main objectives and features of the platform include:
 - **Browse IoT Devices**  
   Detailed product listings with descriptions, images, specifications, and user ratings.
 
-- **Secure Checkout & Payment Integration**  
-  Users can purchase devices using a secure and efficient checkout system.
+- **Secure Checkout & Dynamic Delivery option**  
+  Users can securely complete purchases and choose flexible delivery options with real-time tracking and updates.
 
 - **Order & Delivery Management**  
   Track order status, shipping details, and manage delivery preferences.
@@ -30,14 +30,14 @@ The main objectives and features of the platform include:
   Registration, login, order history, and profile management for a personalized experience.
 
 - **Admin Dashboard (Future Scope)**  
-  Manage products, orders, users, and reviews from a centralized backend (planned in next phase).
+  Manage products, orders, users, and reviews from a centralized backend.
 
 ---
 
 ## 🌐 Live Demo
 
-| Environment | URL |
-|-------------|-----|
+| Environment         | URL                                            |
+| ------------------- | ---------------------------------------------- |
 | **Production Site** | <https://clickconnectelevate.firebaseapp.com/> |
 
 Click the link above to explore the live, fully responsive version of the platform.
@@ -54,36 +54,36 @@ Click the link above to explore the live, fully responsive version of the platfo
 
 ## 🧩 Tools & Technologies
 
-| Category              | Tools / Technologies                          |
-|-----------------------|-----------------------------------------------|
-| Front-End Framework   | React 19.1.0                                   |
-| Styling               | Tailwind CSS 4                                 |
-| Build Tool            | Vite                                           |
-| Backend Services      | Firebase (Firestore, Authentication)          |
-| Code Editor           | Visual Studio Code                            |
-| Diagramming Tools     | Microsoft Visio, Figma                        |
-| Image Assets          | Unsplash, Freepik, Amazon Product Images       |
-| Optimization          | TinyPNG, Chrome Dev Tools                     |
-| Learning Sources      | Meta Front-End Developer (Coursera), YouTube  |
-| AI Assistance         | ChatGPT (GPT-4o), OpenAI                      |
+| Category            | Tools / Technologies                         |
+| ------------------- | -------------------------------------------- |
+| Front-End Framework | React 19.1.0                                 |
+| Styling             | Tailwind CSS 4                               |
+| Build Tool          | Vite                                         |
+| Backend Services    | Firebase (Firestore, Authentication)         |
+| Code Editor         | Visual Studio Code                           |
+| Diagramming Tools   | Microsoft Visio, Figma                       |
+| Image Assets        | Unsplash, Freepik, Amazon Product Images     |
+| Optimization        | TinyPNG, Chrome Dev Tools                    |
+| Learning Sources    | Meta Front-End Developer (Coursera), YouTube |
+| AI Assistance       | ChatGPT (GPT-4o), OpenAI                     |
 
 ---
 
 ## 📸 Screenshots
 
-| Home Page | Order Process | Admin Panel |
-|-----------|------------------|----------------|
+| Home Page                       | Order Process                       | Admin Panel                        |
+| ------------------------------- | ----------------------------------- | ---------------------------------- |
 | ![Home](./screenshots/home.png) | ![Catalog](./screenshots/order.png) | ![Detail](./screenshots/admin.png) |
 
 ---
 
 ## ✅ Project Status
 
-- ✅ Core UI implemented  
-- ✅ Firebase authentication integrated  
-- ✅ Firestore data storage  
-- ✅ Product cards, cart, and checkout workflows  
-- ✅ Admin dashboard 
+- ✅ Core UI implemented
+- ✅ Firebase authentication integrated
+- ✅ Firestore data storage
+- ✅ Product cards, cart, and checkout workflows
+- ✅ Admin dashboard
 
 ---
 
@@ -95,4 +95,3 @@ Student ID: **BC230420532**
 Virtual University of Pakistan
 
 ---
-
