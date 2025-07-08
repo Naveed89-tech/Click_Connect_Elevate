@@ -34,6 +34,16 @@ The main objectives and features of the platform include:
 
 ---
 
+## 🌐 Live Demo
+
+| Environment | URL |
+|-------------|-----|
+| **Production Site** | <https://clickconnectelevate.firebaseapp.com/> |
+
+Click the link above to explore the live, fully responsive version of the platform.
+
+---
+
 ## 🎨 User Interface Highlights
 
 - Fully responsive UI for desktop, tablet, and mobile.
